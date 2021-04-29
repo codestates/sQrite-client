@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
+import sqriteLogo from "../sqrite-logo.png"
 
 class Detailpage extends React.Component {
     constructor(props) {
@@ -12,9 +13,13 @@ class Detailpage extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Detail Page</h1>
-                <button>Login</button>
+            <div id="detailpage-container">
+                <div className="logo-box-flex">
+                    <img className="logo-medium" src={sqriteLogo} />
+                </div>
+                <div className="content-box-flex">
+
+                </div>
             </div>
         )
     }

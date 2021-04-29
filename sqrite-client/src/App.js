@@ -9,7 +9,6 @@ import Signpage from './Pages/Signpage';
 function App() {
   return (
     <Router>
-      <div className="App">
         <Switch>
           <Route path="/" exact>
             <Mainpage />
@@ -24,7 +23,6 @@ function App() {
             <Detailpage />
           </Route>
         </Switch>
-      </div>
     </Router>
   );
 }
