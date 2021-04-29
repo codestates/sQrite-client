@@ -1,38 +1,123 @@
-.App {
+* {
+  box-sizing: border-box;
+  border: 1px dotted green;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Mainpage */
+.logo-medium {
+  max-width: 150px;
+}
+
+#navbar {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.logo-box {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+.login-box {
+  flex: 0.5 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mypage {
+  font-size: 2.2vmin;
+  margin-right: 15px;
+}
+
+.login-btn {
+  background-color: #27aa1b;
+  border: none;
+  color: white;
+  padding: 15px 32px;
   text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.8vmin;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.search-box {
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.question-list-box {
+  width: 100%;
+  padding: 0px;
+  flex: 9 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+input {
+  width: 50vw;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  font-size: 2vmin;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.question-preview {
+  width: 50vw;
+  height: 7vh;
+  display: flex;
 }
+
+.qp-flex-left {
+  flex: 0 1 3em;
+  font-size: 1.5vmin;
+  display: flex;
+  align-items: center;
+}
+
+.qp-flex-mid {
+  flex: 0 1 30em;
+  padding: 0.5vh;
+  position: relative;
+}
+
+.qp-flex-right {
+  flex: 0 1 7em;
+}
+
+.qp-detail {
+  margin-top: 0.5vh;
+  position: absolute;
+  bottom: 0px;
+  font-size: 1.5vmin;
+}
+
+.qp-title {
+  font-size: 2vmin;
+}
+
+.qp-tag {
+  margin: 0.5vh;
+  font-size: 1.7vmin;
+}
+
+/* Mypage */
