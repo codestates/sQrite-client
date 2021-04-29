@@ -13,7 +13,7 @@ class MainPage extends React.Component {
     };
     render() {
         return (
-            <>
+            <div id="mainpage-container">
                 <div id="navbar">
                     <div className="logo-box">
                         <img className="logo-medium" src={sqriteLogo} />
@@ -36,6 +36,7 @@ class MainPage extends React.Component {
                                 <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
                                 <span className="qp-tag">태그1</span>
                                 <span className="qp-tag">태그2</span>
+                                <span className="qp-tag">태그3</span>
                                 <span className="qp-tag">태그3</span>
                                 <div className="qp-detail">
                                     <span>2021-04-29 by Gwan-Woo-Jeong</span>
@@ -190,7 +191,7 @@ class MainPage extends React.Component {
                         </div>
                     </ul>
                 </div>
-            </>
+            </div>
         )
     }
 };
