@@ -25,7 +25,7 @@ class MainPage extends React.Component {
                 </div>
                 <div className="content-box">
                     <div className="search-box">
-                        <input placeholder="검색어를 입력해주세요"></input>
+                        <input placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
                         <div className="question-preview">
