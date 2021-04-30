@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import '../App.css';
 import sqriteLogo from "../sqrite-logo.png"
 
 class Mypage extends React.Component {
@@ -24,8 +23,8 @@ class Mypage extends React.Component {
                             <div>이메일</div>
                             <div>유저이름</div>
                             <div>가입날짜</div>
-                            <div>질문 개수? 뭘 넣어야하지??</div>
-                            <div>답변 개수? 뭘 넣어야하지??</div>
+                            <div>질문 개수</div>
+                            <div>답변 개수</div>
                         </div>
                     </div>
                     <div className="mylists-box">

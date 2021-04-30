@@ -6,17 +6,13 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 /* Mainpage */
 
 #mainpage-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin: 5vh auto;
   width: 60vw;
   height: max-content;
 }
@@ -85,7 +81,7 @@ body {
   justify-content: center;
 }
 
-input {
+#main-input {
   width: 50vw;
   padding: 12px 20px;
   margin: 8px 0;
@@ -143,19 +139,17 @@ input {
   right: 0;
   margin: auto;
   width: max-content;
-  height: max-content; /* change to max-content */
+  height: max-content;
   display: flex;
 }
 
 .logo-box-flex {
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
 .content-box-flex {
-  flex: 0 0 60vw;
   display: flex;
   flex-direction: column;
 }
@@ -239,14 +233,71 @@ input {
 
 /* Detailpage */
 #detailpage-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin: 5vh auto;
   width: 60vw;
-  height: 100vh; /* change to max-content */
+  height: max-content;
   display: flex;
 }
 
+.detail-content-box-flex {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-q-title-box {
+  flex: 0 0 10vh;
+  padding: 0 2vw;
+}
+
+.detail-padding {
+  padding: 1vh 2vw;
+}
+
+.detail-q-title {
+  width: max-content;
+}
+
+.detail-a-title {
+  margin: 0;
+}
+
+.detail-title-detail {
+  text-align: right;
+  margin-bottom: 2vh;
+}
+
+.detail-content {
+  height: max-content;
+  padding: 1vh;
+}
+
+#detail-textarea {
+  width: 100%;
+  min-height: 15vh;
+  font-size: 1.8vmin;
+  padding: 2vh;
+  overflow: hidden;
+  resize: none;
+  margin-top: 2vh;
+}
+
+#answer-btn {
+  padding: 1vh 1.5vw;
+  text-align: center;
+  font-size: 1.8vmin;
+  float: right;
+  margin-top: 1vh;
+}
+
+/* Signpage */
+
+#signpage-container {
+  height: 100vh;
+  display: flex;
+}
+
+.signpage-flex-box {
+  flex: 1 1 auto;
+  display: flex;
+}
