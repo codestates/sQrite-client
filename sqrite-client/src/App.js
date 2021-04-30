@@ -6,12 +6,23 @@ import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
 
-function App() {
-  return (
-    <Router>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: false,
+      userinfo: null,
+      postId: null
+    };
+  }
+
+  render() {
+    const { isLogin, userinfo, postId } = this.state;
+    return (
+      <Router>
         <Switch>
           <Route path="/" exact>
-            <Mainpage />
+            <Mainpage isLogin={isLogin} userinfo={userinfo} postId={postId} />
           </Route>
           <Route path="/sign">
             <Signpage />
@@ -23,8 +34,9 @@ function App() {
             <Detailpage />
           </Route>
         </Switch>
-    </Router>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
+import Mypagepreview from "../Components/Mypagepreview"
 
 class Mypage extends React.Component {
     constructor(props) {
