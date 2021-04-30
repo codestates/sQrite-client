@@ -37,7 +37,7 @@ class Signpage extends React.Component {
             })
         }else{
             // login 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/login",{
+            axios.post("http://localhost:4000/user/login",{
                 email,
                 password 
             }).then((res)=>{ 
@@ -71,7 +71,7 @@ class Signpage extends React.Component {
             })
         }else{
             // signup 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/signup",{
+            axios.post("http://localhost:4000/user/signup",{
                 email,
                 password,
                 username
@@ -101,14 +101,72 @@ class Signpage extends React.Component {
     render() {
         return (
             <div id="signpage-container">
-                <div className="signpage-flex-box">
+                    <div className="signpage-flex-box">
                     <div>
-                        Sign In
-                    </div>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <span>EMAIL</span>
+                            <input
+                            type="email"
+                            onChange={this.handleInputValue("email")}
+                            ></input>
+                        </div>
+                        <div>
+                            <span>USERNAME</span>
+                            <input
+                            type='text'
+                            onChange={this.handleInputValue("username")}
+                            ></input>
+                        </div>
+                        <div>
+                            <span>PASSWORD</span>
+                            <input
+                            type="password"
+                            onChange={this.handleInputValue("password")}
+                            ></input>
+                        </div> 
+                        <div>
+                            <span>CHECK PASSWORD</span>
+                            <input
+                            type="password"
+                            onChange={this.handleInputValue("password")}
+                            ></input>
+                        </div>                        
+                        <button
+                            className="btn btn-signup"
+                            type='submit'
+                            onClick={this.handleSignup}
+                        >
+                            회원가입
+                        </button>
+                    </form>
+                </div>
                 </div>
                 <div className="signpage-flex-box">
                     <div>
-                        Sign Up
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <div>
+                                <span>EMAIL</span>
+                                <input
+                                type="email"
+                                onChange={this.handleInputValue("email")}
+                                ></input>
+                            </div>
+                            <div>
+                                <span>PASSWORD</span>
+                                <input
+                                type="password"
+                                onChange={this.handleInputValue("password")}
+                                ></input>
+                            </div>
+                            <button
+                                className="btn btn-login"
+                                type='submit'
+                                onClick={this.handleLogin}
+                            >
+                                로그인
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -8,9 +8,33 @@ class Detailpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            content : null,
+            comments : null
         };
     };
+
+    getContent(){
+        const { postId } = this.props;
+        axios.get("http://localhost:4000/getContent",{
+            postId
+        })
+        .then((res)=>{
+            if(res){
+                this.setState({
+                    post : res.data
+                })
+            }
+        })
+        .catch((err)=>{
+        })
+    }
+
+    getComments(){
+        const { postId } = this.props;
+        axios.get("",)
+    }
+
+
     componentDidMount() {
         const detailTextarea = document.getElementById("detail-textarea");
         detailTextarea.focus();
