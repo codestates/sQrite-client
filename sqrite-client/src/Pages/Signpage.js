@@ -12,8 +12,17 @@ class Signpage extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Sign Up / Sign In</h1>
+            <div id="signpage-container">
+                <div className="signpage-flex-box">
+                    <div>
+                        Sign In
+                    </div>
+                </div>
+                <div className="signpage-flex-box">
+                    <div>
+                        Sign Up
+                    </div>
+                </div>
             </div>
         )
     }

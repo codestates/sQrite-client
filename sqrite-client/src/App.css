@@ -6,17 +6,13 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 /* Mainpage */
 
 #mainpage-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin: 5vh auto;
   width: 60vw;
   height: max-content;
 }
@@ -143,7 +139,7 @@ body {
   right: 0;
   margin: auto;
   width: max-content;
-  height: max-content; /* change to max-content */
+  height: max-content;
   display: flex;
 }
 
@@ -237,14 +233,9 @@ body {
 
 /* Detailpage */
 #detailpage-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin: 5vh auto;
   width: 60vw;
-  height: max-content; /* change to max-content */
+  height: max-content;
   display: flex;
 }
 
@@ -297,4 +288,16 @@ body {
   font-size: 1.8vmin;
   float: right;
   margin-top: 1vh;
+}
+
+/* Signpage */
+
+#signpage-container {
+  height: 100vh;
+  display: flex;
+}
+
+.signpage-flex-box {
+  flex: 1 1 auto;
+  display: flex;
 }

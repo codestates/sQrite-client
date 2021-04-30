@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import '../App.css';
 import sqriteLogo from "../sqrite-logo.png"
 
 class MainPage extends React.Component {
