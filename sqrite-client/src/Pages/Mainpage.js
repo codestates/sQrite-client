@@ -2,14 +2,30 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
+import Postpreview from "../Components/Postpreview"
 
 class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            postData: null
         };
     };
+
+    componentDidMount() {
+        this.getAllPost();
+    }
+
+    getAllPost() {
+        axios.get("http://localhost:4000/post/content")
+            .then((res) => {
+                console.log(res.data);
+                this.setState({
+                    postData: res.data
+                })
+            })
+    }
+
     render() {
         return (
             <div id="mainpage-container">
