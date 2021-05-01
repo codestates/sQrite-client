@@ -8,8 +8,8 @@ class Detailpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            content : null,
-            comments : null
+            currentPost: null,
+            currentComment: null
         };
     };
 
@@ -17,7 +17,15 @@ class Detailpage extends React.Component {
         const detailTextarea = document.getElementById("detail-textarea");
         detailTextarea.focus();
         autosize(detailTextarea);
+        // this.getDetailPage(this.props.postId);
     }
+
+    getDetailPage(postId) {
+        const getCurrentPost = await axios.get(`http://localhost:4000/post/content?post_id=${postId}`);
+        const getCurrentComment = await axios.get(`http://localhost:4000/comment/comment?post_id=${postId}`);
+        this.setState({ currentPost: getCurrentPost, currentComment: getCurrentComment });
+    }
+
     render() {
         return (
             <div id="detailpage-container">

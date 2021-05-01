@@ -16,19 +16,14 @@ class MainPage extends React.Component {
         };
     };
 
-    // componentDidMount() {
-    //     this.getAllPost();
-    // }
+    componentDidMount() {
+        // this.getAllPost();
+    }
 
-    // getAllPost() {
-    //     axios.get("http://localhost:4000/post/content")
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             this.setState({
-    //                 postData: res.data
-    //             })
-    //         })
-    // }
+    async getAllPost() {
+        const getAllPost = await axios.get("http://localhost:4000/post/content");
+        this.setState({ allPost: getAllPost });
+    }
 
     render() {
         const { handlePostClick } = this.props;
