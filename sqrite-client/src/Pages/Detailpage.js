@@ -20,7 +20,7 @@ class Detailpage extends React.Component {
         // this.getDetailPage(this.props.postId);
     }
 
-    getDetailPage(postId) {
+    async getDetailPage(postId) {
         const getCurrentPost = await axios.get(`http://localhost:4000/post/content?post_id=${postId}`);
         const getCurrentComment = await axios.get(`http://localhost:4000/comment/comment?post_id=${postId}`);
         this.setState({ currentPost: getCurrentPost, currentComment: getCurrentComment });

@@ -6,6 +6,7 @@ import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
+import Postpage from './Pages/Postpage';
 import fakeData from "./Components/test/fakeData" // for test
 
 class App extends React.Component {
@@ -51,6 +52,9 @@ class App extends React.Component {
           </Route>
           <Route path="/detail">
             <Detailpage postId={postId} />
+          </Route>
+          <Route path="/post">
+            <Postpage userinfo={userinfo} />
           </Route>
         </Switch>
       </Router>
