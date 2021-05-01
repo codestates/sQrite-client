@@ -8,12 +8,14 @@ class Detailpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            commentInput: '',
-            currentPost: null,
+            currentPost: {
+                content : "안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다."
+            },
             currentComment: null,
-            admin: false
+            admin : true,
+            isupdating: false
         };
-        this.handleCommentInput = this.handleCommentInput.bind(this);
+        this.handleUpdateValue = this.handleUpdateValue.bind(this);
     };
 
     componentDidMount() {
@@ -32,12 +34,39 @@ class Detailpage extends React.Component {
     // post의 userId와, 현재 유저의 id가 일치하는지 확인하고, 만약 일치한다면
     // 유저가 게시물을 수정/삭제 할 수 있도록 버튼이 나타나게 한다.
     // 그렇다면 유저의 id를 처음 로그인 할 때부터 가져와야 할 필요가 있을 듯.
-    // 우선 유저의 아이디를 가져왔다는 가정 하에 진행해보자.
-    userConfirm() {
-        this.setState({
-            admin: true
-        })
+
+    // 우선 유저의 아이디를 가져왔다는 가정 하에 작성해보자!
+    adminConfirm(){
+        const { userId, postId } = this.props;
+        if(userId===postId){
+            this.setState({
+                admin : true
+            })
+        }
     }
+
+    // 게시물 삭제 메소드
+    deletePost(){
+        const { postId } = this.props;
+        if (window.confirm('게시물을 삭제하시겠습니까?')) {
+            // 게시물을 삭제하는 요청을 서버에 보낸다.
+            // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
+            axios.delete("http://localhost:4000/post/content",{
+                params : {
+                    postId
+                }
+            }).then((res)=>{
+                alert("게시물이 삭제되었습니다.")
+                this.props.history.push("/");
+            })
+        }
+    }
+
+    // 수정을 할 수 있는 상태가 되도록 활성화 시켜준다.
+    updateActivate(){
+        this.setState({
+            isupdating : true
+
 
     handleCommentInput(e) {
         this.setState({ commentInput: e.target.value });
@@ -57,6 +86,18 @@ class Detailpage extends React.Component {
             .catch(err => console.log(err))
     }
 
+    handleUpdateValue = (e) => {
+        this.setState ({
+            currentPost : {
+                content : e.target.value
+            } 
+        });
+    }
+
+    updatePost(){
+    }
+
+
     render() {
         return (
             <div id="detailpage-container">
@@ -65,14 +106,16 @@ class Detailpage extends React.Component {
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
-                        <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId}</h1>
-                        {this.state.admin === true
-                            ? <button>MODIFY</button>
-                            : null
+                        <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId} </h1>
+                        { 
+                        this.state.admin === true 
+                        ? <button onClick={()=>this.updateActivate()}>MODIFY</button>
+                        : null
                         }
-                        {this.state.admin === true
-                            ? <button>DELETE</button>
-                            : null
+                        { 
+                        this.state.admin === true 
+                        ? <button onClick={()=>this.deletePost()}>DELETE</button>
+                        : null
                         }
                         <div className="detail-title-detail">
                             <span>Question from Gwan-Woo-Jeong</span><br></br>
@@ -88,6 +131,21 @@ class Detailpage extends React.Component {
                             안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
                             안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
                         </div>
+                        { 
+                        this.state.isupdating === true 
+                        ? 
+                        <div className="detail-editing">
+                            <input
+                            type='text'
+                            defaultValue = {this.state.currentPost.content}
+                            onChange={this.handleUpdateValue()}
+                            ></input>
+                            <button onClick={()=>this.handleDefault()}>
+                                UPDATE
+                            </button>
+                        </div>
+                        : null
+                        }
                     </div>
                     <div >
                         <div className="detail-padding">
