@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Mypagepreview(props) {
     const { title, created_at, id } = props.myData;
@@ -6,7 +7,7 @@ function Mypagepreview(props) {
     return (
         <div className="mylists-container">
             <div className="mylists-content">
-                <a className="mylists-content-title" onClick={() => handlePostClick(id)}>{title}</a>
+                {<Link to={'/detail'} className="mylists-content-title" onClick={() => handlePostClick(id)}>{title}</Link>}
                 <span className="mylists-content-tag">태그1</span>
                 <span className="mylists-content-tag">태그2</span>
                 <span className="mylists-content-tag">태그3</span>

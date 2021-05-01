@@ -11,7 +11,7 @@ class Signpage extends React.Component {
             password : "",
             username : "",
             errorMessage : "",
-            isDefault : false
+            isDefault : true
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.handleLogin = this.handleLogin.bind(this);

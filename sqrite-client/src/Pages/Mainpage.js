@@ -26,7 +26,7 @@ class MainPage extends React.Component {
     }
 
     render() {
-        const { handlePostClick , isLogin } = this.props;
+        const { handleLogout, handlePostClick, isLogin } = this.props;
         const { allPost } = this.state;
         return (
             <div id="mainpage-container">
@@ -35,12 +35,14 @@ class MainPage extends React.Component {
                         <img className="logo-medium" src={sqriteLogo} />
                     </div >
                     <div className="login-box">
-                        { isLogin === true 
-                        ? <button>WRITE</button>
-                        : null
+                        {isLogin === true
+                            ? <>
+                                <Link to="/post">WRITE</Link>
+                                <Link to="/myinfo" className="mypage">Mypage</Link>
+                                <button onClick={() => handleLogout()}>Logout</button>
+                            </>
+                            : <Link className="login-btn" to="/sign">Login</Link>
                         }
-                        <span className="mypage">Mypage</span>
-                        <button className="login-btn">Login</button>
                     </div>
                 </div>
                 <div className="content-box">

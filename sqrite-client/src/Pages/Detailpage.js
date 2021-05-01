@@ -34,6 +34,7 @@ class Detailpage extends React.Component {
     // post의 userId와, 현재 유저의 id가 일치하는지 확인하고, 만약 일치한다면
     // 유저가 게시물을 수정/삭제 할 수 있도록 버튼이 나타나게 한다.
     // 그렇다면 유저의 id를 처음 로그인 할 때부터 가져와야 할 필요가 있을 듯.
+
     // 우선 유저의 아이디를 가져왔다는 가정 하에 작성해보자!
     adminConfirm(){
         const { userId, postId } = this.props;
@@ -65,7 +66,24 @@ class Detailpage extends React.Component {
     updateActivate(){
         this.setState({
             isupdating : true
+
+
+    handleCommentInput(e) {
+        this.setState({ commentInput: e.target.value });
+        console.log(this.state.commentInput);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const { userinfo, postId } = this.props;
+        axios.post("http://localhost:4000/comment/comment", {
+            user_id: userinfo.id,
+            post_id: postId,
+            content: this.state.commentInput
         })
+            .then(res => console.log(res))
+            .then(window.location.reload())
+            .catch(err => console.log(err))
     }
 
     handleUpdateValue = (e) => {
@@ -88,7 +106,7 @@ class Detailpage extends React.Component {
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
-                        <h1 className="detail-q-title">안녕하세요, 질문이 있습니다.</h1>
+                        <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId} </h1>
                         { 
                         this.state.admin === true 
                         ? <button onClick={()=>this.updateActivate()}>MODIFY</button>
@@ -172,8 +190,8 @@ class Detailpage extends React.Component {
                         </div>
                     </div>
                     <div className="relative detail-padding">
-                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
-                        <button id="answer-btn">Submit</button>
+                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)} ></textarea>
+                        <button id="answer-btn" onClick={(e) => this.handleSubmit(e)}>Submit</button>
                     </div>
                 </div>
             </div>
