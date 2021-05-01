@@ -5,6 +5,9 @@ import sqriteLogo from "../sqrite-logo.png"
 import Postpreview from "../Components/Postpreview"
 import fakeData from "../Components/test/fakeData" // for test
 
+// 로그인 버튼을 클릭했을 때, signup/login 페이지로 이동할 수 있어야 함 
+// 모든 post들을 가져와 리스트로 나열할 수 있도록 요청 전송
+
 class MainPage extends React.Component {
     constructor(props) {
         super(props);
