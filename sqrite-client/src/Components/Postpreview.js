@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Postpreview(props) {
     const { title, created_at, username, id } = props.postData;
@@ -9,7 +10,7 @@ function Postpreview(props) {
                 <span>solved!</span>
             </div>
             <div className="qp-flex-mid">
-                <a className="qp-title" onClick={() => handlePostClick(id)}>{title}</a>
+                {<Link to={'/detail'} className="qp-title" onClick={() => handlePostClick(id)}>{title}</Link>}
                 <span className="qp-tag">태그1</span>
                 <span className="qp-tag">태그2</span>
                 <span className="qp-tag">태그3</span>
