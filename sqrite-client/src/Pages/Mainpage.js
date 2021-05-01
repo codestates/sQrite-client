@@ -3,30 +3,33 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
 import Postpreview from "../Components/Postpreview"
+import fakeData from "../Components/test/fakeData" // for test
 
 class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            postData: null
+            allPost: fakeData.allPost
         };
     };
 
-    componentDidMount() {
-        this.getAllPost();
-    }
+    // componentDidMount() {
+    //     this.getAllPost();
+    // }
 
-    getAllPost() {
-        axios.get("http://localhost:4000/post/content")
-            .then((res) => {
-                console.log(res.data);
-                this.setState({
-                    postData: res.data
-                })
-            })
-    }
+    // getAllPost() {
+    //     axios.get("http://localhost:4000/post/content")
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             this.setState({
+    //                 postData: res.data
+    //             })
+    //         })
+    // }
 
     render() {
+        const { handlePostClick } = this.props;
+        const { allPost } = this.state;
         return (
             <div id="mainpage-container">
                 <div id="navbar">
@@ -43,167 +46,7 @@ class MainPage extends React.Component {
                         <input placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>waiting</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>waiting</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>waiting</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
-                        <div className="question-preview">
-                            <div className="qp-flex-left">
-                                <span>solved!</span>
-                            </div>
-                            <div className="qp-flex-mid">
-                                <a className="qp-title">안녕하세요, 질문이 있습니다.</a>
-                                <span className="qp-tag">태그1</span>
-                                <span className="qp-tag">태그2</span>
-                                <span className="qp-tag">태그3</span>
-                                <div className="qp-detail">
-                                    <span>2021-04-29 by Gwan-Woo-Jeong</span>
-                                </div>
-                            </div>
-                            <div className="qp-flex-right">
-                            </div>
-                        </div>
+                        {allPost.map(el => <Postpreview postData={el} handlePostClick={handlePostClick} />)}
                     </ul>
                 </div>
             </div>
