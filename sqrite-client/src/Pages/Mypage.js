@@ -14,20 +14,11 @@ class Mypage extends React.Component {
         }
     }
 
-    componentDidMount() {
-        // this.getUserPostComment(this.props.userinfo.id);
-    }
-
-    async getUserPostComment(userId) {
-        const getPostData = await axios.get(`http://localhost:4000/comment/comment?user_id=${userId}`);
-        const getCommentData = await axios.get(`http://localhost:4000/comment/comment?user_id=${userId}`);
-        this.setState({ postData: getPostData, commentData: getCommentData });
-    }
 
     render() {
         const { postData, commentData } = this.state;
         const { handlePostClick } = this.props;
-        const { email, username, createdAt } = this.props.userinfo
+        const { email, username, createdAt} = this.props.userinfo
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
