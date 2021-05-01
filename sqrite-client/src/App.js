@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import './App.css';
 import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';
@@ -15,20 +15,22 @@ class App extends React.Component {
     this.state = {
       isLogin: true,
       userinfo: fakeData.userinfo,
-      postId: 1
+      postId: 2
     };
     this.handlePostClick = this.handlePostClick.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handlePostClick(id) {
     console.log(id)
-    // this.setState({ postId: id })
+    this.setState({ postId: id });
   }
 
-  async handleLogout() {
-    await axios.get("http://localhost:4000/user/logout");
+  // async 
+  handleLogout() {
+    // await axios.get("http://localhost:4000/user/logout");
     this.setState({ userinfo: null, isLogin: false });
-    this.props.history.push('/');
+    this.props.history.push("/");
   }
 
   render() {
@@ -42,6 +44,7 @@ class App extends React.Component {
               userinfo={userinfo}
               postId={postId}
               handlePostClick={this.handlePostClick}
+              handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
@@ -51,7 +54,7 @@ class App extends React.Component {
             <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} />
           </Route>
           <Route path="/detail">
-            <Detailpage postId={postId} />
+            <Detailpage postId={postId} userinfo={userinfo} />
           </Route>
           <Route path="/post">
             <Postpage userinfo={userinfo} />
@@ -62,4 +65,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);
