@@ -11,10 +11,12 @@ class Signpage extends React.Component {
             password : "",
             username : "",
             errorMessage : "",
+            isDefault : false
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
+        this.handleDefault = this.handleDefault.bind(this);
     }
     
     // input form에 입력되는 값에 대해 다루는 메소드
@@ -37,7 +39,7 @@ class Signpage extends React.Component {
             })
         }else{
             // login 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/login",{
+            axios.post("http://localhost:4000/user/login",{
                 email,
                 password 
             }).then((res)=>{ 
@@ -71,7 +73,7 @@ class Signpage extends React.Component {
             })
         }else{
             // signup 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/signup",{
+            axios.post("http://localhost:4000/user/signup",{
                 email,
                 password,
                 username
@@ -84,31 +86,95 @@ class Signpage extends React.Component {
         }
     }
 
-    // 처음 렌더될 때 디폴트 페이지는 반드시 로그인 페이지여야 함.
-    // 로그인을 하고 있을 땐 가입 section에 버튼 또는 링크로 연결되는 a 태그 등만 존재해야하고
-    // 반대로 가입을 하고 있을 땐 로그인 section에 버튼 또는 링크 연결 태그만이 존재해야 함
-    // => 조건식을 통해서 제어해야 할까 ??? 
-    // 현재 상태에 대해 알 수 있는 state를 하나 더 추가해서 그 값에 따라 각 페이지의 전환을
-    // 조건에 따라 결정할 수도 있을 듯... 일단 조금 더 고민해 보기!
-    // ex) signup (x) / login(o) 상태랑 signup(o) / login(x) 상태 전환할 때
-    // {this.state.isDefault ?
-    //    <div id="signup">
-    //    
-    //    </div>
-    //    : null
-    //  }
+    handleDefault() {
+        this.setState({
+            isDefault : !this.state.isDefault
+        })
+    }
 
     render() {
         return (
             <div id="signpage-container">
                 <div className="signpage-flex-box">
                     <div>
-                        Sign In
+                    { this.state.isDefault === false 
+                    ? 
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <span>EMAIL</span>
+                            <input
+                            type="email"
+                            onChange={this.handleInputValue("email")}
+                            ></input>
+                        </div>
+                        <div>
+                            <span>USERNAME</span>
+                            <input
+                            type='text'
+                            onChange={this.handleInputValue("username")}
+                            ></input>
+                        </div>
+                        <div>
+                            <span>PASSWORD</span>
+                            <input
+                            type="password"
+                            onChange={this.handleInputValue("password")}
+                            ></input>
+                        </div> 
+                        <div>
+                            <span>CHECK PASSWORD</span>
+                            <input
+                            type="password"
+                            onChange={this.handleInputValue("password")}
+                            ></input>
+                        </div>                        
+                        <button
+                            className="btn btn-signup"
+                            type='submit'
+                            onClick={this.handleSignup}
+                        >
+                            SUBMIT
+                        </button>
+                    </form>
+                    : 
+                    <button onClick={this.handleDefault}>
+                        SIGN UP
+                    </button>
+                    }
                     </div>
                 </div>
                 <div className="signpage-flex-box">
                     <div>
-                        Sign Up
+                    { this.state.isDefault === true 
+                    ? 
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <span>EMAIL</span>
+                            <input
+                            type="email"
+                            onChange={this.handleInputValue("email")}
+                            ></input>
+                        </div>
+                        <div>
+                            <span>PASSWORD</span>
+                            <input
+                            type="password"
+                            onChange={this.handleInputValue("password")}
+                            ></input>
+                        </div>
+                        <button
+                            className="btn btn-login"
+                            type='submit'
+                            onClick={this.handleLogin}
+                        >
+                            SUBMIT
+                        </button>
+                    </form>
+                    : 
+                    <button onClick={()=>this.handleDefault()}>
+                        SIGN IN
+                    </button>
+                    }
                     </div>
                 </div>
             </div>
