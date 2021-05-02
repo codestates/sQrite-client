@@ -5,16 +5,22 @@ import sqriteLogo from "../sqrite-logo.png"
 import autosize from 'autosize'
 
 class Detailpage extends React.Component {
-    constructor(props) {
+    constructor(props) { // props.post_id
         super(props);
+        /*
         this.state = {
-
-        };
+            post:
+            comment: [] => map 사용가능
+        }
+        */
     };
     componentDidMount() {
         const detailTextarea = document.getElementById("detail-textarea");
         detailTextarea.focus();
         autosize(detailTextarea);
+
+        // axios.get() => post_id에 맞는 post 하나가 리턴되고 => setState => post update
+        // axios.get() => post_id에 맞는 comment 여러개 리턴된다. => setState => comment update
     }
     render() {
         return (

@@ -7,9 +7,14 @@ class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            posts : []
         };
     };
+
+    getPosts(){
+        
+    }
+
     render() {
         return (
             <div id="mainpage-container">

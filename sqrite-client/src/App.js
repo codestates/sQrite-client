@@ -7,6 +7,9 @@ import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
 
 function App() {
+
+  // state => isLogin=boolean, userinfo={}, post_id=>number 
+
   return (
     <Router>
         <Switch>
