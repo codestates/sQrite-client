@@ -3,43 +3,18 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
 import autosize from 'autosize'
+import fakeData from "../Components/test/fakeData"
 
 class Detailpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPost: {
-                id: null,
-                title: "",
-                content: "",
-                count_comments: 0,
-                count_likes: 0,
-                created_at: "",
-                user_id: "5"
-            },
-            currentComment: [
-                {
-                    id: null,
-                    content: "",
-                    count_comments: 0,
-                    count_likes: 0,
-                    created_at: "",
-                    user_id: "",
-                    post_id: ""
-                },
-                {
-                    id: null,
-                    content: "",
-                    count_comments: 0,
-                    count_likes: 0,
-                    created_at: "",
-                    user_id: "",
-                    post_id: ""
-                },
-            ],
+           currentPost: fakeData.allPost[0],
+            currentComment: fakeData.commentData,
             updatePostInput: "",
             commentInput: ""
         };
+      this.deleteComment = this.deleteComment.bind(this);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
         this.btnOnDisplay = this.btnOnDisplay.bind(this);
     };
@@ -65,16 +40,16 @@ class Detailpage extends React.Component {
     }
 
     // 게시물 삭제 메소드
-    deletePost() {
+    deletePost(){
         const { postId } = this.props;
-        if (window.confirm('게시물을 삭제하시겠습니까?')) {
+        if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
-            axios.delete("http://localhost:4000/post/content", {
-                params: {
-                    postId
+            axios.delete("http://localhost:4000/post/content",{
+                params : {
+                    post_id : postId
                 }
-            }).then((res) => {
+            }).then((res)=>{
                 alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
             })
@@ -85,18 +60,22 @@ class Detailpage extends React.Component {
         this.setState({ commentInput: e.target.value });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        const { userinfo, postId } = this.props;
-        axios.post("http://localhost:4000/comment/comment", {
-            user_id: userinfo.id,
-            post_id: postId,
-            content: this.state.commentInput
+    // 답글을 가져오는 메소드
+    getComment(){    
+        const { userId, postId } = this.props;
+        axios.get("http://localhost:4000/comment/comment",{
+            params : {
+                user_id : userId,
+                post_id : postId
+            }
+        }
+        ).then((res)=>{
+            this.setState({
+                currentComment : res.commentData
+            })
         })
-            .then(res => console.log(res))
-            .then(window.location.reload())
-            .catch(err => console.log(err))
     }
+
 
     handleUpdateInput = (e) => {
         this.setState({ updatePostInput: e.target.value });
@@ -108,6 +87,30 @@ class Detailpage extends React.Component {
         } else {
             return;
         }
+
+    // 댓글을 작성하는 메소드
+    createComment(){
+        const { userId, postId } = this.props;
+        axios.post("http://localhost:4000/comment/commen",{
+            user_id : userId,
+            post_id : postId,
+            // content : input comment value...
+        }).then((res)=>{
+            if(res.status===200){ 
+                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
+            }
+        })
+    }
+
+    // 댓글을 삭제하는 메소드
+    deleteComment(commentId){
+        // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
+        // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
+        axios.delete("http://localhost:4000/comment/comment",{
+            params : commentId
+        }).then((res)=>{
+        })
+
     }
 
     btnOnDisplay() {
@@ -136,6 +139,8 @@ class Detailpage extends React.Component {
     }
 
     render() {
+        const { userId } = this.props;
+        const { currentPost, currentComment } = this.state;
         return (
             <div id="detailpage-container">
                 <div>
@@ -143,6 +148,7 @@ class Detailpage extends React.Component {
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
+
                         <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId} </h1>
 
                         <span style={{ display: "none" }} className="post-btn-display">
@@ -152,17 +158,12 @@ class Detailpage extends React.Component {
 
                         <div className="detail-title-detail">
                             <span>Question from Gwan-Woo-Jeong</span><br></br>
-                            <span>2021-04-25</span>
+                            <span>{currentPost.created_at}</span>
                         </div>
                     </div>
                     <div className="detail-padding">
                         <div className="detail-content">
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
-                            안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다. 안녕하세요, 질문이 있습니다.
+                            {currentPost.content}
                         </div>
 
                         <div style={{ display: "none" }} className="detail-editing update-input-display">
@@ -179,50 +180,31 @@ class Detailpage extends React.Component {
 
                     </div>
                     <div >
-                        <div className="detail-padding">
+                    {currentComment.map(el =>  
+                        <div> 
                             <div className="detail-a-title-box">
-                                <h2 className="detail-a-title">Re : 안녕하세요, 질문이 있습니다.</h2>
+                                    <h2 className="detail-a-title">{el.title}</h2>
                             </div>
                             <div className="detail-title-detail">
-                                <span>Answer from Jung-Jin-Young</span><br></br>
-                                <span>2021-04-25</span>
+                                    <span>Answer from Bo-Sung-Kim</span><br></br>
+                                    <span>{el.created_at}</span>
                             </div>
+                            {
+                            el.user_id!==userId
+                            ?
+                            <button onClick={()=>this.deleteComment(el.id)}>DELETE</button>
+                            :
+                            null
+                            }
                             <div className="detail-content">
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
+                                    {el.content}
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <div className="detail-padding">
-                            <div className="detail-a-title-box">
-                                <h2 className="detail-a-title">Re : 안녕하세요, 질문이 있습니다.</h2>
-                            </div>
-                            <div className="detail-title-detail">
-                                <span>Answer from Bo-Sung-Kim</span><br></br>
-                                <span>2021-04-25</span>
-                            </div>
-                            <div className="detail-content">
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                                안녕하세요, 답변입니다. 안녕하세요, 답변입니다. 안녕하세요, 답변입니다.
-                            </div>
-                        </div>
+                    )}
                     </div>
                     <div className="relative detail-padding">
-                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)} ></textarea>
-                        <button id="answer-btn" onClick={(e) => this.handleSubmit(e)}>Submit</button>
+                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
+                        <button id="answer-btn">Submit</button>
                     </div>
                 </div>
             </div>
