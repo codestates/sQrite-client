@@ -14,9 +14,6 @@ class Detailpage extends React.Component {
             updatePostInput: "",
             commentInput: ""
         };
-        this.deleteComment = this.deleteComment.bind(this);
-        this.handleUpdateInput = this.handleUpdateInput.bind(this);
-        this.btnOnDisplay = this.btnOnDisplay.bind(this);
     };
 
     componentDidMount() {
@@ -89,16 +86,20 @@ class Detailpage extends React.Component {
 
     // 댓글을 작성하는 메소드
     createComment() {
-        const { userId, postId } = this.props;
         axios.post("http://localhost:4000/comment/comment", {
-            user_id: userId,
-            post_id: postId,
-            // content : input comment value...
-        }).then((res) => {
-            if (res.status === 200) {
-                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
-            }
+            user_id: this.props.userinfo.id,
+            post_id: this.state.currentPost.id,
+            content: this.state.commentInput
         })
+            .then((res) => {
+                if (res.status === 200) {
+                    // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
+                    window.location.reload();
+                } else {
+                    alert("답변 작성을 실패하였습니다.")
+                }
+            })
+            .catch(err => console.log(err))
     }
 
     // 댓글을 삭제하는 메소드
@@ -108,10 +109,10 @@ class Detailpage extends React.Component {
         axios.delete("http://localhost:4000/comment/comment", {
             params: commentId
         })
-            .then(res => {
-                console.log(res);
+            .then(() => {
                 window.location.reload();
             })
+            .catch(err => console.log(err))
     }
 
     btnOnDisplay() {
@@ -200,7 +201,7 @@ class Detailpage extends React.Component {
                     </div>
                     <div className="relative detail-padding">
                         <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
-                        <button id="answer-btn">Submit</button>
+                        <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
                     </div>
                 </div >
             </div >
