@@ -2,6 +2,8 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
+import Mypagepreview from "../Components/Mypagepreview"
+import fakeData from "../Components/test/fakeData" // for test
 
 class Mypage extends React.Component {
     constructor(props) { 
@@ -14,101 +16,69 @@ class Mypage extends React.Component {
         
         */
         super(props);
+        this.state = {
+            postData: fakeData.postData,
+            commentData: fakeData.commentData
+        }
+    }
+    // userinfo의 Id와 일치하는 포스트, 댓글만을 가져와야 한다.
+    async getUserCurrentPosts() {
+        const { userinfo } = this.props;
+        const currentPosts = await axios.get("http://localhost:4000/post/content", {
+            params: {
+                userId: userinfo.id
+            }
+        });
+        // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
+        this.setState({
+            postData: currentPosts
+        })
     }
 
-    
-    componentDidMount(){
-        // axios.get() =>  user_id에 맞는 post 여러개 리턴되고 => setState => post update
-        // axios.get() =>  user_id에 맞는 comment 여러개 리턴된다. => setState => comment update
+    async getUserCurrentCommnents() {
+        const { userinfo } = this.props;
+        const currentComments = await axios.get("http://localhost:4000/comment/comment", {
+            params: {
+                userId: userinfo.id
+            }
+        });
+        this.setState({
+            commentData: currentComments
+        })
     }
-
     render() {
+        const { postData, commentData } = this.state;
+        const { setPostId } = this.props;
+        const { email, username, createdAt } = this.props.userinfo
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
                     <img className="logo-medium" src={sqriteLogo} />
                 </div>
                 <div className="content-box-flex">
-                    {
-                        this.props.userinfo ? // userinfo가 있다면 정보를 볼수 있도록 하고 없다면 로그인 이나 회원가입을 볼 수 있도록 해야함.
-                        <div className="myinfo-box">
-                            <div className="myinfo">
-                                <div>내 정보</div>
-                                <div>이메일</div>
-                                <div>유저이름</div>
-                                <div>가입날짜</div>
-                                <div>질문 개수</div>
-                                <div>답변 개수</div>
-                            </div>
-                        </div> : 
-                        <div> Please log in or sing up! </div>
-                    }
-                    
+                    <div className="myinfo-box">
+                        <div className="myinfo">
+                            <div>내 정보</div>
+                            <div>이메일 : {email}</div>
+                            <div>유저이름 : {username}</div>
+                            <div>가입날짜 : {createdAt}</div>
+                            <div>질문 개수 : </div>
+                            <div>답변 개수 : </div>
+                        </div>
+                    </div>
                     <div className="mylists-box">
                         <div className="mylists">
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Questions</span>
                                 </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 질문있습니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 질문있습니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 질문있습니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
+                                {postData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 답변입니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 답변입니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
-                                <div className="mylists-container">
-                                    <div className="mylists-content">
-                                        <a className="mylists-content-title">안녕하세요, 답변입니다.</a>
-                                        <span className="mylists-content-tag">태그1</span>
-                                        <span className="mylists-content-tag">태그2</span>
-                                        <span className="mylists-content-tag">태그3</span>
-                                        <div className="mylists-content-detail">2021-04-25</div>
-                                    </div>
-                                </div>
+                                {commentData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                         </div>
                     </div>
