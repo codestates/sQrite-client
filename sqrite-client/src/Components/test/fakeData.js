@@ -122,7 +122,7 @@ const fakeData = {
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
                 "created_at": "2021-05-01",
-                "user_id": "user_id",
+                "user_id": "1",
                 "post_id": "post_id"
             },
             {
@@ -131,7 +131,7 @@ const fakeData = {
                 "content": "content",
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
-                "created_at": "2021-05-01",
+                "created_at": "2021-05-02",
                 "user_id": "user_id",
                 "post_id": "post_id"
             },
@@ -141,7 +141,7 @@ const fakeData = {
                 "content": "content",
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
-                "created_at": "2021-05-01",
+                "created_at": "2021-05-03",
                 "user_id": "user_id",
                 "post_id": "post_id"
             },
