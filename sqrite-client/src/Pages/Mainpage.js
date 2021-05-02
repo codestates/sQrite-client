@@ -26,7 +26,7 @@ class MainPage extends React.Component {
     }
 
     render() {
-        const { handleLogout, handlePostClick, isLogin } = this.props;
+        const { handleLogout, setPostId, isLogin } = this.props;
         const { allPost } = this.state;
         return (
             <div id="mainpage-container">
@@ -50,7 +50,7 @@ class MainPage extends React.Component {
                         <input placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(el => <Postpreview postData={el} handlePostClick={handlePostClick} />)}
+                        {allPost.map(el => <Postpreview postData={el} setPostId={setPostId} />)}
                     </ul>
                 </div>
             </div>

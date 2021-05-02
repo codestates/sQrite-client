@@ -26,15 +26,14 @@ class Postpage extends React.Component {
         this.setState({ [key]: e.target.value });
     };
 
-    handleSubmit() {
+    handleSubmit(callback) {
         axios.post("http://localhost:4000/post/content", {
             email: this.props.userinfo.email,
             title: this.state.title,
             content: this.state.content
         })
-            .then(res => {
-                this.props.history.push(`/detail/${res.data.id}`) // !생성된 게시글로 이동, 서버 수정 필요
-            })
+            .then((res) => { callback(res.data.id) }) // !생성된 게시글로 이동, 서버 수정 필요
+            .then(() => this.props.history.push("/detail"))
             .catch(err => console.log(err))
     }
 
@@ -57,7 +56,7 @@ class Postpage extends React.Component {
                         onChange={this.handleInputValue("content")}
                     />
                 </div>
-                <button id="post-submit-btn" onClick={() => this.handleSubmit()}>Submit</button>
+                <button id="post-submit-btn" onClick={() => { this.handleSubmit(this.props.setPostId) }}>Submit</button>
             </div>
         )
     }

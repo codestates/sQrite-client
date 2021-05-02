@@ -34,7 +34,6 @@ class Detailpage extends React.Component {
     // post의 userId와, 현재 유저의 id가 일치하는지 확인하고, 만약 일치한다면
     // 유저가 게시물을 수정/삭제 할 수 있도록 버튼이 나타나게 한다.
     // 그렇다면 유저의 id를 처음 로그인 할 때부터 가져와야 할 필요가 있을 듯.
-
     // 우선 유저의 아이디를 가져왔다는 가정 하에 작성해보자!
     adminConfirm() {
         const { userId, postId } = this.props;
@@ -139,7 +138,7 @@ class Detailpage extends React.Component {
                                     <input
                                         type='text'
                                         defaultValue={this.state.currentPost.content}
-                                        onChange={this.handleUpdateValue()}
+                                        onChange={(e) => this.handleUpdateValue(e)}
                                     ></input>
                                     <button onClick={() => this.handleDefault()}>
                                         UPDATE
