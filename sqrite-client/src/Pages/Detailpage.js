@@ -14,6 +14,7 @@ class Detailpage extends React.Component {
             updatePostInput: "",
             commentInput: ""
         };
+        this.deleteComment = this.deleteComment.bind(this);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.btnOnDisplay = this.btnOnDisplay.bind(this);
@@ -75,6 +76,7 @@ class Detailpage extends React.Component {
         })
     }
 
+
     handleUpdateInput = (e) => {
         this.setState({ updatePostInput: e.target.value });
     }
@@ -85,6 +87,31 @@ class Detailpage extends React.Component {
         } else {
             return;
         }
+    }
+
+    // 댓글을 작성하는 메소드
+    createComment() {
+        const { userId, postId } = this.props;
+        axios.post("http://localhost:4000/comment/commen", {
+            user_id: userId,
+            post_id: postId,
+            // content : input comment value...
+        }).then((res) => {
+            if (res.status === 200) {
+                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
+            }
+        })
+    }
+
+    // 댓글을 삭제하는 메소드
+    deleteComment(commentId) {
+        // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
+        // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
+        axios.delete("http://localhost:4000/comment/comment", {
+            params: commentId
+        }).then((res) => {
+        })
+
     }
 
     // 댓글을 작성하는 메소드
@@ -146,6 +173,7 @@ class Detailpage extends React.Component {
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
+
                         <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId} </h1>
                         <span style={{ display: "none" }} className="post-btn-display">
                             <button onClick={() => this.updateInputOnDisplay()}>MODIFY</button>
