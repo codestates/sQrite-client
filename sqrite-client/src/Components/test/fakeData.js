@@ -8,7 +8,7 @@ const fakeData = {
             "count_likes": "count_likes",
             "created_at": "2021-05-01",
             "username": "Gwan-Woo-Jeong",
-            "user_id": "user_id"
+            "user_id": "1"
         },
         {
             "id": "2",
@@ -122,7 +122,7 @@ const fakeData = {
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
                 "created_at": "2021-05-01",
-                "user_id": "user_id",
+                "user_id": "1",
                 "post_id": "post_id"
             },
             {
@@ -131,7 +131,7 @@ const fakeData = {
                 "content": "content",
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
-                "created_at": "2021-05-01",
+                "created_at": "2021-05-02",
                 "user_id": "user_id",
                 "post_id": "post_id"
             },
@@ -141,14 +141,14 @@ const fakeData = {
                 "content": "content",
                 "count_comments": "count_comments",
                 "count_likes": "count_likes",
-                "created_at": "2021-05-01",
+                "created_at": "2021-05-03",
                 "user_id": "user_id",
                 "post_id": "post_id"
             },
         ],
         userinfo:
             {
-                "id": "5",
+                "id": "1",
                 "email": "sqrite@codestates.com",
                 "password": "1234",
                 "username": "kimcoding",
