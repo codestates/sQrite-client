@@ -39,8 +39,7 @@ class Mypage extends React.Component {
             commentData : currentComments
         })
     }
-
-
+  
     render() {
         const { postData, commentData } = this.state;
         const { setPostId } = this.props;
