@@ -149,9 +149,9 @@ const fakeData = {
         userinfo:
             {
                 "id": "1",
-                "email": "sqrite@codestates.com",
+                "email": "bs5665@naver.com",
                 "password": "1234",
-                "username": "kimcoding",
+                "username": "boseong",
                 "createdAt": "2021-04-29T07:11:54.000Z",
                 "updatedAt": "2021-04-29T07:11:54.000Z"
             },

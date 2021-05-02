@@ -34,7 +34,7 @@ class Signpage extends React.Component {
         // 로그인할 때는 state에서 email, password의 값만 확인하면 된다.
         const { email, password } = this.state;
         if(email.length===0 || password.length===0){
-            return this.state({
+            return this.setState({
                 errorMessage : "이메일과 비밀번호 모두 입력해야 로그인이 가능합니다."
             })
         }else{
@@ -65,19 +65,20 @@ class Signpage extends React.Component {
     // ** 가입을 다루는 메소드 **
     // 만약 가입을 했을 때, post요청에 대한 res 값이 정상적으로 돌아온다면
     // 가입에 성공한 것이므로 login을 할 수 있도록 login 페이지를 띄운다.
-    handleSignUp = () => {
+    handleSignUp() {
         const { email, password, username } = this.state;
-        if( email.length === 0 || password.length ===0 || username.length ===0 ){
+        if( email.length === 0 || password.length === 0 || username.length === 0 ){
             return this.setState({
                 errorMessage : "이름, 이메일, 비밀번호 모두 입력해야 가입이 가능합니다"
             })
-        }else{
+        } else {
             // signup 동작은 서버에 post 요청을 전송해주어야 함.
             axios.post("http://localhost:4000/user/signup",{
                 email,
                 password,
                 username
-            }).then((res) => {
+            })
+            .then((res) => {
                 if(res) {
                     // 정상적으로 서버에 데이터가 올라갔다면, sign의 디폴트 페이지인 로그인이 뜨도록 다시 이동
                     this.props.history.push("/sign");
@@ -131,13 +132,13 @@ class Signpage extends React.Component {
                         <button
                             className="btn btn-signup"
                             type='submit'
-                            onClick={this.handleSignup}
+                            onClick={() => this.handleSignUp()} 
                         >
                             SUBMIT
                         </button>
                     </form>
                     : 
-                    <button onClick={this.handleDefault}>
+                    <button onClick={() => this.handleDefault()}>
                         SIGN UP
                     </button>
                     }
@@ -165,7 +166,7 @@ class Signpage extends React.Component {
                         <button
                             className="btn btn-login"
                             type='submit'
-                            onClick={this.handleLogin}
+                            onClick={() => this.handleLogin()}
                         >
                             SUBMIT
                         </button>

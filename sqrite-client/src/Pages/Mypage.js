@@ -7,13 +7,8 @@ import fakeData from "../Components/test/fakeData" // for test
 
 class Mypage extends React.Component {
     constructor(props) { 
-        this.state={
-            post = [],
-            comment = []
-        }
         /*
         userinfo 에는 이메일도 있고 user id도 있다. 
-        
         */
         super(props);
         this.state = {
