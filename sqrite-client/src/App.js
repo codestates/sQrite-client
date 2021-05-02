@@ -17,11 +17,11 @@ class App extends React.Component {
       userinfo: fakeData.userinfo,
       postId: 2
     };
-    this.handlePostClick = this.handlePostClick.bind(this);
+    this.setPostId = this.setPostId.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handlePostClick(id) {
+  setPostId(id) {
     console.log(id)
     this.setState({ postId: id });
   }
@@ -43,7 +43,7 @@ class App extends React.Component {
               isLogin={isLogin}
               userinfo={userinfo}
               postId={postId}
-              handlePostClick={this.handlePostClick}
+              setPostId={this.setPostId}
               handleLogout={this.handleLogout}
             />
           </Route>
@@ -51,13 +51,13 @@ class App extends React.Component {
             <Signpage />
           </Route>
           <Route path="/myinfo">
-            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} />
+            <Mypage setPostId={this.setPostId} userinfo={userinfo} />
           </Route>
           <Route path="/detail">
             <Detailpage postId={postId} userinfo={userinfo} />
           </Route>
           <Route path="/post">
-            <Postpage userinfo={userinfo} />
+            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
           </Route>
         </Switch>
       </Router>

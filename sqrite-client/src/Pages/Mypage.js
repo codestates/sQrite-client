@@ -43,8 +43,8 @@ class Mypage extends React.Component {
 
     render() {
         const { postData, commentData } = this.state;
-        const { handlePostClick } = this.props;
-        const { email, username, createdAt } = this.props.userinfo
+        const { setPostId } = this.props;
+        const { email, username, createdAt} = this.props.userinfo
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
@@ -67,13 +67,13 @@ class Mypage extends React.Component {
                                 <div className="mylists-title">
                                     <span>My Questions</span>
                                 </div>
-                                {postData.map(el => <Mypagepreview myData={el} handlePostClick={handlePostClick} />)}
+                                {postData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                {commentData.map(el => <Mypagepreview myData={el} handlePostClick={handlePostClick} />)}
+                                {commentData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                         </div>
                     </div>
