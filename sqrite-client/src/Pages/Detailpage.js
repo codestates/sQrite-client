@@ -16,7 +16,6 @@ class Detailpage extends React.Component {
         };
         this.deleteComment = this.deleteComment.bind(this);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
-        this.deleteComment = this.deleteComment.bind(this);
         this.btnOnDisplay = this.btnOnDisplay.bind(this);
     };
 
@@ -42,13 +41,12 @@ class Detailpage extends React.Component {
 
     // 게시물 삭제 메소드
     deletePost() {
-        const { postId } = this.props;
         if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
             axios.delete("http://localhost:4000/post/content", {
                 params: {
-                    post_id: postId
+                    post_id: this.props.postId
                 }
             }).then((res) => {
                 alert("게시물이 삭제되었습니다.")
@@ -92,7 +90,7 @@ class Detailpage extends React.Component {
     // 댓글을 작성하는 메소드
     createComment() {
         const { userId, postId } = this.props;
-        axios.post("http://localhost:4000/comment/commen", {
+        axios.post("http://localhost:4000/comment/comment", {
             user_id: userId,
             post_id: postId,
             // content : input comment value...
@@ -109,33 +107,11 @@ class Detailpage extends React.Component {
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
         axios.delete("http://localhost:4000/comment/comment", {
             params: commentId
-        }).then((res) => {
         })
-
-    }
-
-    // 댓글을 작성하는 메소드
-    createComment() {
-        const { userId, postId } = this.props;
-        axios.post("http://localhost:4000/comment/commen", {
-            user_id: userId,
-            post_id: postId,
-            // content : input comment value...
-        }).then((res) => {
-            if (res.status === 200) {
-                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
-            }
-        })
-    }
-
-    // 댓글을 삭제하는 메소드
-    deleteComment(commentId) {
-        // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
-        // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
-        axios.delete("http://localhost:4000/comment/comment", {
-            params: commentId
-        }).then((res) => {
-        })
+            .then(res => {
+                console.log(res);
+                window.location.reload();
+            })
     }
 
     btnOnDisplay() {
@@ -164,7 +140,6 @@ class Detailpage extends React.Component {
     }
 
     render() {
-        const { userId } = this.props;
         const { currentPost, currentComment } = this.state;
         return (
             <div id="detailpage-container">
@@ -211,7 +186,7 @@ class Detailpage extends React.Component {
                                     <span>{el.created_at}</span>
                                 </div>
                                 {
-                                    el.user_id !== userId
+                                    el.user_id === this.props.userinfo.id
                                         ?
                                         <button onClick={() => this.deleteComment(el.id)}>DELETE</button>
                                         :

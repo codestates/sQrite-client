@@ -92,7 +92,7 @@ class Signpage extends React.Component {
         })
     }
 
-    render() {
+    render () {
         return (
             <div id="signpage-container">
                 <div className="signpage-flex-box">
