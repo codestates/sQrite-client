@@ -14,11 +14,37 @@ class Mypage extends React.Component {
         }
     }
 
+    // userinfo의 Id와 일치하는 포스트, 댓글만을 가져와야 한다.
+    async getUserCurrentPosts(){
+        const { userinfo } = this.props;
+        const currentPosts = await axios.get("http://localhost:4000/post/content",{
+            params : {
+                userId : userinfo.id
+            }
+        });
+        // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
+        this.setState({
+            postData : currentPosts
+        })
+    }
+
+    async getUserCurrentCommnents(){
+        const { userinfo } = this.props;
+        const currentComments = await axios.get("http://localhost:4000/comment/comment",{
+            params : {
+                userId : userinfo.id
+            }
+        });
+        this.setState({
+            commentData : currentComments
+        })
+    }
+
 
     render() {
         const { postData, commentData } = this.state;
         const { handlePostClick } = this.props;
-        const { email, username, createdAt} = this.props.userinfo
+        const { email, username, createdAt } = this.props.userinfo
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
@@ -31,7 +57,7 @@ class Mypage extends React.Component {
                             <div>이메일 : {email}</div>
                             <div>유저이름 : {username}</div>
                             <div>가입날짜 : {createdAt}</div>
-                            <div>질문 개수 :</div>
+                            <div>질문 개수 : </div>
                             <div>답변 개수 : </div>
                         </div>
                     </div>
