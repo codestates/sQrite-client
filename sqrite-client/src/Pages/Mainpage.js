@@ -47,22 +47,22 @@ class MainPage extends React.Component {
     // }
 
     render() {
-        const { handleLogout, setPostId, isLogin } = this.props;
+        const { handleLogout, isLogin } = this.props;
         const { allPost } = this.state;
         return (
             <div id="mainpage-container">
                 <div id="navbar">
                     <div className="logo-box">
-                        <img className="logo-medium" src={sqriteLogo} />
+                        <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
                     </div >
                     <div className="login-box">
-                        { isLogin === true 
-                        ? <div>
-                            <button>WRITE</button> 
-                            <button className="logout-btn" onClick={()=>handleLogout()}>LOGOUT</button>
-                            <span className="mypage">Mypage</span>
-                        </div>
-                        : <button className="login-btn" onClick={()=>this.props.history.push("/sign")}>Login</button>
+                        {isLogin === true
+                            ? <div>
+                                <Link to="/post"><button>WRITE</button></Link>
+                                <button className="logout-btn" onClick={() => handleLogout()}>LOGOUT</button>
+                                <Link to="/myinfo" className="mypage">Mypage</Link>
+                            </div>
+                            : <button className="login-btn" onClick={() => this.props.history.push("/sign")}>Login</button>
                         }
                     </div>
                 </div>
@@ -71,7 +71,7 @@ class MainPage extends React.Component {
                         <input type="search" placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(eachPost => <Postpreview postData={eachPost} setPostId={setPostId} />)}
+                        {allPost.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)}
                     </ul>
                 </div>
             </div>

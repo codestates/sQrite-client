@@ -27,7 +27,7 @@ class Detailpage extends React.Component {
     }
 
     async loadDetailPage() {
-        await this.getDetailPage(this.props.postId);
+        await this.getDetailPage(this.props.match.params.postId);
         await this.postUserVerify(this.btnOnDisplay);
     }
 
@@ -44,13 +44,13 @@ class Detailpage extends React.Component {
         if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
-            axios.delete("http://localhost:4000/post/content",{
-                params : {
-                    post_id : this.props.postId
+            axios.delete("http://localhost:4000/post/content", {
+                params: {
+                    post_id: this.props.match.params.postId
                 }
-            },{
-                headers:{'Authorization': `Bearer ${this.props.accessToken}`}
-            }).then((res)=>{
+            }, {
+                headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
+            }).then((res) => {
                 alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
                 alert("게시물이 삭제되었습니다.")
@@ -59,24 +59,22 @@ class Detailpage extends React.Component {
     }
 
     // 게시물 내용을 수정을 할 수 있는 상태가 되도록 활성화 시켜준다.
-    updateActivate(){
+    updateActivate() {
         this.setState({
-            isUpdating : true
+            isUpdating: true
         })
     }
-
-
 
     handleCommentInput(e) {
         this.setState({ commentInput: e.target.value });
     }
     // 답글을 가져오는 메소드
     getComment() {
-        const { userId, postId } = this.props;
+        const { userId } = this.props;
         axios.get("http://localhost:4000/comment/comment", {
             params: {
                 user_id: userId,
-                post_id: postId
+                post_id: this.props.match.params.postId
             }
         }
         ).then((res) => {
@@ -99,25 +97,18 @@ class Detailpage extends React.Component {
         }
     }
 
-    // 댓글을 작성하는 메소드
-    createComment(){
-        const { userId, postId } = this.props;
-        axios.post("http://localhost:4000/comment/comment",{
-            user_id : userId,
-            post_id : postId,
-            // content : input comment value...
-        },{
-            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
-        },{
-            withCrendentials : true
-        }).then((res)=>{
-            if(res.status===200){ 
-                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
-            }
+    createComment() {
+        axios.post("http://localhost:4000/comment/comment", {
+            user_id: this.props.userinfo.id,
+            post_id: this.props.match.params.postId,
+            content: this.state.commentInput
+        }, {
+            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
+        }, {
+            withCrendentials: true
         })
             .then((res) => {
                 if (res.status === 200) {
-                    // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
                     window.location.reload();
                 } else {
                     alert("답변 작성을 실패하였습니다.")
@@ -130,14 +121,14 @@ class Detailpage extends React.Component {
     deleteComment(commentId) {
         // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
-        axios.delete("http://localhost:4000/comment/comment",{
-            params : commentId
-        },{
-            headers:{'Authorization': `Bearer ${this.props.accessToken}` }
-        },{
-            withCrendentials : true
-        }).then((res)=>{
-            if(res) alert("정상적으로 삭제되었습니다.");
+        axios.delete("http://localhost:4000/comment/comment", {
+            data: { comment_id: commentId }
+        }, {
+            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
+        }, {
+            withCrendentials: true
+        }).then((res) => {
+            if (res) alert("정상적으로 삭제되었습니다.");
         })
             .then(() => {
                 window.location.reload();
@@ -163,7 +154,7 @@ class Detailpage extends React.Component {
 
     updatePost() {
         axios.put("http://localhost:4000/post/content", {
-            post_id: this.props.postId,
+            post_id: this.props.match.params.postId,
             title: this.state.currentPost.title,
             content: this.state.updatePostInput
         })
@@ -177,7 +168,7 @@ class Detailpage extends React.Component {
         return (
             <div id="detailpage-container">
                 <div>
-                    <img className="logo-medium" src={sqriteLogo} />
+                    <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
@@ -234,10 +225,10 @@ class Detailpage extends React.Component {
                         <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
                     </div>
                     <div>
-                    <button onClick={()=>this.props.history.push("/")}>
-                        목록
+                        <button onClick={() => this.props.history.push("/")}>
+                            목록
                     </button>
-                </div>
+                    </div>
                 </div>
             </div>
         )
