@@ -14,8 +14,14 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogin: true,
-      userinfo: fakeData.userinfo,
-      postId: 2
+      userinfo: {
+        id: 4,
+        email: "test4@test.com",
+        username: "kimcoding4",
+        createdAt: "2021-05-03 06:10:21",
+        updatedAt: "2021-05-03 06:10:21"
+      },
+      postId: null
     };
     this.setPostId = this.setPostId.bind(this);
     this.handleLogout = this.handleLogout.bind(this);

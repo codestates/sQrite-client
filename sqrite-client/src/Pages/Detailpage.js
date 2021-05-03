@@ -23,8 +23,12 @@ class Detailpage extends React.Component {
         postUpdateTextarea.focus();
         autosize(detailTextarea);
         autosize(postUpdateTextarea);
-        this.postUserVerify(this.btnOnDisplay);
-        this.getDetailPage(this.props.postId);
+        this.loadDetailPage();
+    }
+
+    async loadDetailPage() {
+        await this.getDetailPage(this.props.postId);
+        await this.postUserVerify(this.btnOnDisplay);
     }
 
     async getDetailPage(postId) {
@@ -76,6 +80,7 @@ class Detailpage extends React.Component {
     }
 
     postUserVerify(callback) {
+        console.log("post-userId :", this.state.currentPost.user_id, "userinfo-userId :", this.props.userinfo.id)
         if (this.state.currentPost.user_id === this.props.userinfo.id) {
             callback();
         } else {
