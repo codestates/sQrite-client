@@ -21,7 +21,7 @@ class App extends React.Component {
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
   }
 
-  handlePostClick(id) {
+  setPostId(id) {
     console.log(id)
     // this.setState({ postId: id })
   }
@@ -53,18 +53,21 @@ class App extends React.Component {
               isLogin={isLogin}
               userinfo={userinfo}
               postId={postId}
-              handlePostClick={this.handlePostClick}
-              accessToken={accessToken}
+              setPostId={this.setPostId}
+              handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
             <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess}/>
           </Route>
           <Route path="/myinfo">
-            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} accessToken={accessToken}/>
+            <Mypage setPostId={this.setPostId} userinfo={userinfo} />
           </Route>
           <Route path="/detail">
-            <Detailpage userId={userinfo.id} postId={postId} accessToken={accessToken}/>
+            <Detailpage postId={postId} userinfo={userinfo} />
+          </Route>
+          <Route path="/post">
+            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
           </Route>
         </Switch>
       </Router>

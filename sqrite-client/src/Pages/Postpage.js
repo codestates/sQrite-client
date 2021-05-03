@@ -26,7 +26,8 @@ class Postpage extends React.Component {
         this.setState({ [key]: e.target.value });
     };
 
-    handleSubmit() {
+    // submit 버튼을 누르면 생성된 게시글로 이동
+    handleSubmit(callback) {
         axios.post("http://localhost:4000/post/content", {
             email: this.props.userinfo.email,
             title: this.state.title,
@@ -60,7 +61,7 @@ class Postpage extends React.Component {
                         onChange={this.handleInputValue("content")}
                     />
                 </div>
-                <button id="post-submit-btn" onClick={() => this.handleSubmit()}>Submit</button>
+                <button id="post-submit-btn" onClick={() => { this.handleSubmit(this.props.setPostId) }}>Submit</button>
             </div>
         )
     }

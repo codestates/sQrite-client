@@ -8,7 +8,7 @@ const fakeData = {
             "count_likes": "count_likes",
             "created_at": "2021-05-01",
             "username": "Gwan-Woo-Jeong",
-            "user_id": "user_id"
+            "user_id": "1"
         },
         {
             "id": "2",

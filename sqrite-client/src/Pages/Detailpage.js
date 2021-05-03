@@ -11,42 +11,36 @@ class Detailpage extends React.Component {
         this.state = {
             currentPost: fakeData.allPost[0],
             currentComment: fakeData.commentData,
-            admin : true,
-            isUpdating: false
+            updatePostInput: "",
+            commentInput: ""
         };
-        this.handleUpdateValue = this.handleUpdateValue.bind(this);
-        this.deleteComment = this.deleteComment.bind(this);
     };
 
     componentDidMount() {
         const detailTextarea = document.getElementById("detail-textarea");
+        const postUpdateTextarea = document.getElementById("post-update-textarea");
         detailTextarea.focus();
+        postUpdateTextarea.focus();
         autosize(detailTextarea);
-        // this.getDetailPage(this.props.postId);
+        autosize(postUpdateTextarea);
+        this.loadDetailPage();
+    }
+
+    async loadDetailPage() {
+        await this.getDetailPage(this.props.postId);
+        await this.postUserVerify(this.btnOnDisplay);
     }
 
     async getDetailPage(postId) {
         const getCurrentPost = await axios.get(`http://localhost:4000/post/content?post_id=${postId}`);
+        console.log(getCurrentPost.data[0])
         const getCurrentComment = await axios.get(`http://localhost:4000/comment/comment?post_id=${postId}`);
-        this.setState({ currentPost: getCurrentPost, currentComment: getCurrentComment });
-    }
-
-    // post의 userId와, 현재 유저의 id가 일치하는지 확인하고, 만약 일치한다면
-    // 유저가 게시물을 수정/삭제 할 수 있도록 버튼이 나타나게 한다.
-    // 그렇다면 유저의 id를 처음 로그인 할 때부터 가져와야 할 필요가 있을 듯.
-    // 우선 유저의 아이디를 가져왔다는 가정 하에 작성해보자!
-    adminConfirm(){
-        const { userId, postId } = this.props;
-        if(userId===postId){
-            this.setState({
-                admin : true
-            })
-        }
+        console.log(getCurrentComment.data)
+        this.setState({ currentPost: getCurrentPost.data[0], currentComment: getCurrentComment.data });
     }
 
     // 게시물 삭제 메소드
-    deletePost(){
-        const { postId } = this.props;
+    deletePost() {
         if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
@@ -59,6 +53,7 @@ class Detailpage extends React.Component {
             }).then((res)=>{
                 alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
+                alert("게시물이 삭제되었습니다.")
             })
         }
     }
@@ -70,30 +65,38 @@ class Detailpage extends React.Component {
         })
     }
 
-    // 입력창에 입력되는 값에 대해서 받아오는 메소드
-    handleUpdateValue = (e) => {
-        const { content, comment } = this.state;
-        this.setState ({
-            currentPost : {
-                content : e.target.value
-            } 
-        });
-    }
 
+
+    handleCommentInput(e) {
+        this.setState({ commentInput: e.target.value });
+    }
     // 답글을 가져오는 메소드
-    getComment(){    
+    getComment() {
         const { userId, postId } = this.props;
-        axios.get("http://localhost:4000/comment/comment",{
-            params : {
-                user_id : userId,
-                post_id : postId
+        axios.get("http://localhost:4000/comment/comment", {
+            params: {
+                user_id: userId,
+                post_id: postId
             }
         }
-        ).then((res)=>{
+        ).then((res) => {
             this.setState({
-                currentComment : res.commentData
+                currentComment: res.commentData
             })
         })
+    }
+
+    handleUpdateInput = (e) => {
+        this.setState({ updatePostInput: e.target.value });
+    }
+
+    postUserVerify(callback) {
+        console.log("post-userId :", this.state.currentPost.user_id, "userinfo-userId :", this.props.userinfo.id)
+        if (this.state.currentPost.user_id === this.props.userinfo.id) {
+            callback();
+        } else {
+            return;
+        }
     }
 
     // 댓글을 작성하는 메소드
@@ -112,10 +115,19 @@ class Detailpage extends React.Component {
                 // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
             }
         })
+            .then((res) => {
+                if (res.status === 200) {
+                    // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
+                    window.location.reload();
+                } else {
+                    alert("답변 작성을 실패하였습니다.")
+                }
+            })
+            .catch(err => console.log(err))
     }
 
     // 댓글을 삭제하는 메소드
-    deleteComment(commentId){
+    deleteComment(commentId) {
         // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
         axios.delete("http://localhost:4000/comment/comment",{
@@ -127,11 +139,40 @@ class Detailpage extends React.Component {
         }).then((res)=>{
             if(res) alert("정상적으로 삭제되었습니다.");
         })
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(err => console.log(err))
     }
 
+    btnOnDisplay() {
+        const fixAndDelete = document.getElementsByClassName("post-btn-display")[0];
+        fixAndDelete.style.display = "block";
+    }
+
+    updateInputOnDisplay() {
+        const updateInput = document.getElementsByClassName("update-input-display")[0];
+        const postUpdateTextarea = document.getElementById("post-update-textarea");
+        if (updateInput.style.display === "none") {
+            postUpdateTextarea.defaultValue = this.state.currentPost.content;
+            updateInput.style.display = "block";
+        } else {
+            updateInput.style.display = "none"
+        };
+    }
+
+    updatePost() {
+        axios.put("http://localhost:4000/post/content", {
+            post_id: this.props.postId,
+            title: this.state.currentPost.title,
+            content: this.state.updatePostInput
+        })
+            .then(res => console.log(res))
+            .then(window.location.reload())
+            .catch(err => console.log(err))
+    }
 
     render() {
-        const { userId } = this.props;
         const { currentPost, currentComment } = this.state;
         return (
             <div id="detailpage-container">
@@ -141,67 +182,56 @@ class Detailpage extends React.Component {
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
                         <h1 className="detail-q-title">{currentPost.title}</h1>
-                        { 
-                        this.state.admin === true 
-                        ? <button onClick={()=>this.updateActivate()}>MODIFY</button>
-                        : null
-                        }
-                        { 
-                        this.state.admin === true 
-                        ? <button onClick={()=>this.deletePost()}>DELETE</button>
-                        : null
-                        }
+                        <span style={{ display: "none" }} className="post-btn-display">
+                            <button onClick={() => this.updateInputOnDisplay()}>MODIFY</button>
+                            <button onClick={() => this.deletePost()}>DELETE</button>
+                        </span>
                         <div className="detail-title-detail">
                             <span>Question from Gwan-Woo-Jeong</span><br></br>
-                            <span>{currentPost.created_at}</span>
+                            <span>{currentPost.createdAt}</span>
                         </div>
                     </div>
                     <div className="detail-padding">
                         <div className="detail-content">
                             {currentPost.content}
                         </div>
-                        { 
-                        this.state.isupdating === true 
-                        ? 
-                        <div className="detail-editing">
-                            <input
-                            type='text'
-                            defaultValue = {this.state.currentPost.content}
-                            onChange={(e)=>this.handleUpdateValue(e)}
-                            ></input>
-                            <button onClick={()=>this.handleDefault()}>
+                        <div style={{ display: "none" }} className="detail-editing update-input-display">
+                            <textarea
+                                id="post-update-textarea"
+                                type='text'
+                                onChange={(e) => this.handleUpdateInput(e)}
+                            ></textarea>
+                            <button onClick={() => this.updatePost()}>
                                 UPDATE
                             </button>
                         </div>
-                        : null
-                        }
                     </div>
                     <div >
-                    {currentComment.map(el =>  
-                        <div> 
-                            <div className="detail-a-title-box">
-                                    <h2 className="detail-a-title">{el.title}</h2>
-                            </div>
-                            <div className="detail-title-detail">
+                        {currentComment.map(eachComment =>
+                            <div key={eachComment.id}>
+                                <div className="detail-a-title-box">
+                                    <h2 className="detail-a-title">Re : {currentPost.title}</h2>
+                                </div>
+                                <div className="detail-title-detail">
                                     <span>Answer from Bo-Sung-Kim</span><br></br>
-                                    <span>{el.created_at}</span>
+                                    <span>{eachComment.createdAt}</span>
+                                </div>
+                                {
+                                    eachComment.user_id === this.props.userinfo.id
+                                        ?
+                                        <button onClick={() => this.deleteComment(eachComment.id)}>DELETE</button>
+                                        :
+                                        null
+                                }
+                                <div className="detail-content">
+                                    {eachComment.content}
+                                </div>
                             </div>
-                            {
-                            el.user_id===userId
-                            ?
-                            <button onClick={()=>this.deleteComment(el.id)}>DELETE</button>
-                            :
-                            null
-                            }
-                            <div className="detail-content">
-                                    {el.content}
-                            </div>
-                        </div>
-                    )}
+                        )}
                     </div>
                     <div className="relative detail-padding">
-                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
-                        <button id="answer-btn">Submit</button>
+                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)}></textarea>
+                        <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
                     </div>
                     <div>
                     <button onClick={()=>this.props.history.push("/")}>
