@@ -29,16 +29,16 @@ class Mypage extends React.Component {
             params: {
                 user_id: this.props.userinfo.id
             }
-        },{
-            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
-        },{
-            withCrendentials : true
+        }, {
+            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
+        }, {
+            withCrendentials: true
         });
         console.log(currentPosts.data)
         // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
-        if( currentPosts ){
+        if (currentPosts) {
             this.setState({
-                postData : currentPosts
+                postData: currentPosts.data
             })
         }
     }
@@ -48,15 +48,15 @@ class Mypage extends React.Component {
             params: {
                 user_id: this.props.userinfo.id
             }
-        },{
-            headers:{'Authorization': `Bearer ${this.props.accessToken}` }
-        },{
-            withCrendentials : true
+        }, {
+            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
+        }, {
+            withCrendentials: true
         });
 
-        if( currentComments ){
+        if (currentComments) {
             this.setState({
-                commentData : currentComments
+                commentData: currentComments.data
             })
         }
     }
@@ -67,7 +67,7 @@ class Mypage extends React.Component {
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
-                    <img className="logo-medium" src={sqriteLogo} />
+                    <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
                 </div>
                 <div className="content-box-flex">
                     <div className="myinfo-box">
@@ -86,13 +86,13 @@ class Mypage extends React.Component {
                                 <div className="mylists-title">
                                     <span>My Questions</span>
                                 </div>
-                                {postData.map(eachPost => <Mypagepreview myData={eachPost} setPostId={setPostId} />)}
+                                {postData.map(eachPost => <Mypagepreview key={eachPost.id} myData={eachPost} />)}
                             </div>
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                {commentData.map(eachComment => <Mypagepreview myData={eachComment} setPostId={setPostId} />)}
+                                {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} setPostId={setPostId} />)}
                             </div>
                         </div>
                     </div>

@@ -12,69 +12,70 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: localStorage.getItem("loggedInfo"),
-      userinfo: fakeData.userinfo,
-      postId: 1,
-      accessToken : ""
+      // isLogin: localStorage.getItem("loggedInfo"),
+      isLogin: true,
+      userinfo: {
+        id: 4,
+        email: "test4@test.com",
+        password: "1234",
+        username: "kimcoding4",
+        createdAt: "2021-05-03 06:10:21",
+        updatedAt: "2021-05-03 06:10:21"
+      },
+      accessToken: ""
     };
-    this.setPostId = this.setPostId.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    this.initializeUserInfo = this.initializeUserInfo.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
+    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    // this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
-  setPostId(id) {
-    console.log(id)
-    // this.setState({ postId: id })
-  }
+  // initializeUserInfo() {
+  //   if (localStorage.getItem("loggedInfo") === true) {
+  //     this.setState({
+  //       isLogin: true
+  //     })
+  //   }
+  // }
 
-  initializeUserInfo(){
-    if(localStorage.getItem("loggedInfo")===true){
-      this.setState({
-        isLogin : true
-      })
-    }
-  }
+  // handleLoginSuccess(accessToken, email) {
+  //   this.setState({
+  //     isLogin: true,
+  //     accessToken,
+  //     email: email
+  //   })
+  //   localStorage.setItem("loggedInfo", true)
+  // }
 
-  handleLoginSuccess(accessToken, email){
-    this.setState({
-      isLogin : true,
-      accessToken,
-      email : email
-    })
-    localStorage.setItem("loggedInfo", true)
-  }
+  // componentWillMount() {
+  //   const loggedInfo = localStorage.getItem("loggedInfo")
+  //   if (loggedInfo) {
+  //     this.setState({
+  //       isLogin: JSON.parse(loggedInfo)
+  //     })
+  //   }
+  // }
 
-  componentWillMount(){
-    const loggedInfo = localStorage.getItem("loggedInfo")
-    if(loggedInfo){
-      this.setState({
-        isLogin : JSON.parse(loggedInfo)
-      })
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (JSON.stringify(prevState.loggedInfo) !== JSON.stringify(this.state.isLogin)) {
+  //     localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
+  //   }
+  // }
 
-  componentDidUpdate(prevProps, prevState){
-    if(JSON.stringify(prevState.loggedInfo)!==JSON.stringify(this.state.isLogin)){
-      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
-    }
-  }
-
-  async handleLogout() {
-    const { email } = this.state;
-    console.log(email)
-    await axios.post("http://localhost:4000/user/logout",{
-      email
-    },{
-      withCrendentials : true
-    });
-    this.setState({ userinfo: null, isLogin: false, accessToken : null });
-    localStorage.setItem("loggedInfo", false)
-    this.props.history.push('/');
-  }
+  // async handleLogout() {
+  //   const { email } = this.state;
+  //   console.log(email)
+  //   await axios.post("http://localhost:4000/user/logout", {
+  //     email
+  //   }, {
+  //     withCrendentials: true
+  //   });
+  //   this.setState({ userinfo: null, isLogin: false, accessToken: null });
+  //   localStorage.setItem("loggedInfo", false)
+  //   this.props.history.push('/');
+  // }
 
   render() {
-    const { isLogin, userinfo, postId } = this.state;
+    const { isLogin, userinfo } = this.state;
     return (
       <Router>
         <Switch>
@@ -82,25 +83,20 @@ class App extends React.Component {
             <Mainpage
               isLogin={isLogin}
               userinfo={userinfo}
-              postId={postId}
-              setPostId={this.setPostId}
               handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
-            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess}/>
+            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess} />
           </Route>
           <Route path="/myinfo">
-            <Mypage setPostId={this.setPostId} userinfo={userinfo} />
+            <Mypage userinfo={userinfo} />
           </Route>
-          <Route path="/detail">
-            <Detailpage postId={postId} userinfo={userinfo} />
-          </Route>
-          <Route path="/post">
-            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
+          <Route path="/detail/:postId">
+            <Detailpage userinfo={userinfo} />
           </Route>
           <Route path="/post">
-            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
+            <Postpage userinfo={userinfo} />
           </Route>
         </Switch>
       </Router>
