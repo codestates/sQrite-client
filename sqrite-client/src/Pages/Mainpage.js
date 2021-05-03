@@ -50,7 +50,7 @@ class MainPage extends React.Component {
                         <input placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(el => <Postpreview postData={el} setPostId={setPostId} />)}
+                        {allPost.map(eachPost => <Postpreview postData={eachPost} setPostId={setPostId} />)}
                     </ul>
                 </div>
             </div>
