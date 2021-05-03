@@ -204,7 +204,7 @@ class Detailpage extends React.Component {
                         )}
                     </div>
                     <div className="relative detail-padding">
-                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
+                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)}></textarea>
                         <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
                     </div>
                 </div >
