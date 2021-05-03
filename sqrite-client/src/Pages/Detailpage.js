@@ -44,14 +44,28 @@ class Detailpage extends React.Component {
         if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
-            axios.delete("http://localhost:4000/post/content", {
-                data: { post_id: this.props.postId }
-            }).then(() => {
+            axios.delete("http://localhost:4000/post/content",{
+                params : {
+                    post_id : this.props.postId
+                }
+            },{
+                headers:{'Authorization': `Bearer ${this.props.accessToken}`}
+            }).then((res)=>{
+                alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
                 alert("게시물이 삭제되었습니다.")
             })
         }
     }
+
+    // 게시물 내용을 수정을 할 수 있는 상태가 되도록 활성화 시켜준다.
+    updateActivate(){
+        this.setState({
+            isUpdating : true
+        })
+    }
+
+
 
     handleCommentInput(e) {
         this.setState({ commentInput: e.target.value });
@@ -72,7 +86,6 @@ class Detailpage extends React.Component {
         })
     }
 
-
     handleUpdateInput = (e) => {
         this.setState({ updatePostInput: e.target.value });
     }
@@ -87,11 +100,20 @@ class Detailpage extends React.Component {
     }
 
     // 댓글을 작성하는 메소드
-    createComment() {
-        axios.post("http://localhost:4000/comment/comment", {
-            user_id: this.props.userinfo.id,
-            post_id: this.state.currentPost.id,
-            content: this.state.commentInput
+    createComment(){
+        const { userId, postId } = this.props;
+        axios.post("http://localhost:4000/comment/comment",{
+            user_id : userId,
+            post_id : postId,
+            // content : input comment value...
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
+        },{
+            withCrendentials : true
+        }).then((res)=>{
+            if(res.status===200){ 
+                // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
+            }
         })
             .then((res) => {
                 if (res.status === 200) {
@@ -108,8 +130,14 @@ class Detailpage extends React.Component {
     deleteComment(commentId) {
         // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
-        axios.delete("http://localhost:4000/comment/comment", {
-            data: { comment_id: commentId }
+        axios.delete("http://localhost:4000/comment/comment",{
+            params : commentId
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}` }
+        },{
+            withCrendentials : true
+        }).then((res)=>{
+            if(res) alert("정상적으로 삭제되었습니다.");
         })
             .then(() => {
                 window.location.reload();
@@ -205,8 +233,13 @@ class Detailpage extends React.Component {
                         <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)}></textarea>
                         <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
                     </div>
-                </div >
-            </div >
+                    <div>
+                    <button onClick={()=>this.props.history.push("/")}>
+                        목록
+                    </button>
+                </div>
+                </div>
+            </div>
         )
     }
 };

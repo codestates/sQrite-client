@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Postpreview(props) {
-    const { title, createdAt, username, id } = props.postData;
+    const { title, created_at, username, id } = props.postData;
     const { setPostId } = props;
     return (
         <div className="question-preview">
@@ -15,7 +15,7 @@ function Postpreview(props) {
                 <span className="qp-tag">태그2</span>
                 <span className="qp-tag">태그3</span>
                 <div className="qp-detail">
-                    <span>{createdAt} by {username}</span>
+                    <span>{created_at} by {username}</span>
                 </div>
             </div>
             <div className="qp-flex-right">

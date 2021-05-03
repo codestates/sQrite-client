@@ -32,9 +32,14 @@ class Postpage extends React.Component {
             email: this.props.userinfo.email,
             title: this.state.title,
             content: this.state.content
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
+        },{
+            withCrendentials : true
         })
-            .then((res) => { callback(res.data.id) }) // !생성된 게시글로 이동, 서버 수정 필요
-            .then(() => this.props.history.push("/detail"))
+            .then(res => {
+                this.props.history.push(`/detail/${res.data.id}`) // !생성된 게시글로 이동, 서버 수정 필요
+            })
             .catch(err => console.log(err))
     }
 
