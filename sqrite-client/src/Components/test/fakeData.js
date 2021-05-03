@@ -2,7 +2,7 @@ const fakeData = {
     allPost: [
         {
             "id": "1",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "안뇽하세요, 질문이 있습니다.",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -56,7 +56,7 @@ const fakeData = {
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
-            "created_at": "created_at",
+            "created_at": "2021-05-02",
             "username": "Gwan-Woo-Jeong",
             "user_id": "user_id"
         },
@@ -79,7 +79,7 @@ const fakeData = {
             "created_at": "2021-05-01",
             "username": "Gwan-Woo-Jeong",
             "user_id": "user_id"
-        },
+        }
     ],
     postData: [
         {
@@ -150,7 +150,7 @@ const fakeData = {
             {
                 "id": "1",
                 "email": "sqrite@codestates.com",
-                "password": "1234",
+                "password": "code1234",
                 "username": "kimcoding",
                 "createdAt": "2021-04-29T07:11:54.000Z",
                 "updatedAt": "2021-04-29T07:11:54.000Z"

@@ -34,8 +34,9 @@ class Postpage extends React.Component {
             content: this.state.content
         },{
             headers:{'Authorization': `Bearer ${this.props.accessToken}`}
-        }
-        )
+        },{
+            withCrendentials : true
+        })
             .then(res => {
                 this.props.history.push(`/detail/${res.data.id}`) // !생성된 게시글로 이동, 서버 수정 필요
             })

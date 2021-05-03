@@ -12,7 +12,7 @@ class Signpage extends React.Component {
             password : "",
             checkPassword : "",
             errorMessage : "",
-            isDefault : false
+            isDefault : true
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -25,7 +25,6 @@ class Signpage extends React.Component {
         this.setState ({
             [key] : e.target.value
         });
-        
     }
 
 
@@ -37,7 +36,7 @@ class Signpage extends React.Component {
         // 로그인할 때는 state에서 email, password의 값만 확인하면 된다.
         const { email, password } = this.state;
         if(email.length===0 || password.length===0){
-            return this.state({
+            this.setState({
                 errorMessage : "이메일과 비밀번호 모두 입력해야 로그인이 가능합니다."
             })
         }else{
@@ -45,25 +44,19 @@ class Signpage extends React.Component {
             axios.post("http://localhost:4000/user/login",{
                 email,
                 password 
-            },{
-                withCredentials:true
             }).then((res)=>{ 
+                // console.log(res)
                 if(res.status===200){ // 만약 로그인이 정상적으로 이루어져서 서버에서 토큰을 받아왔다면 if(res.body.accessToken)
-                    // this.setState({
-                    //     // isLogin은 App.js에서 props를 통해 내려준 state 값
-                    //     isLogin : true
-                    // })
-                    // handleLoginSuccess은 App.js에서 props를 통해 내려준 메소드
-                    this.props.handleLoginSuccess(res.data.data.accessToken);
-
-                    this.props.history.push("/Mainpage") // 로그인 후 main page로 이동
-                }          
+                    this.props.handleLoginSuccess(
+                        res.data.data.accessToken,
+                        email
+                    );
+                    this.props.history.push("/"); // 로그인 후 main page로 이동
+                }else if(res.status===404){
+                    alert("올바른 이메일과 비밀번호를 입력해주십시오.");
+                }    
             }).catch((err)=>{
-                this.setState({
-                    email : "",
-                    password : "",
-                    errorMessage : "오류가 발생하여 재로그인이 필요합니다."
-                })
+                console.log(err);
             })
         }
     }
@@ -84,7 +77,6 @@ class Signpage extends React.Component {
 
     handleSignUp = () => {
         const { email, password, checkPassword, username } = this.state;
-        console.log(password,checkPassword);
         if( email.length === 0 || password.length ===0 || username.length ===0 ){
             return this.setState({
                 errorMessage : "이름, 이메일, 비밀번호 모두 입력해야 가입이 가능합니다"
@@ -102,7 +94,9 @@ class Signpage extends React.Component {
             }).then((res) => {
                 if(res) {
                     // 정상적으로 서버에 데이터가 올라갔다면, sign의 디폴트 페이지인 로그인이 뜨도록 다시 이동
-                    this.props.history.push("/sign");
+                    this.setState({
+                        isDefault : true
+                    })
                 }
             })
         }
