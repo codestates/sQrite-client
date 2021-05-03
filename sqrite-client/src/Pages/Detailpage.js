@@ -45,7 +45,7 @@ class Detailpage extends React.Component {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
             axios.delete("http://localhost:4000/post/content", {
-                data: {post_id: this.props.postId }
+                data: { post_id: this.props.postId }
             }).then(() => {
                 this.props.history.push("/");
                 alert("게시물이 삭제되었습니다.")
@@ -109,7 +109,7 @@ class Detailpage extends React.Component {
         // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
         axios.delete("http://localhost:4000/comment/comment", {
-            params: commentId
+            data: { comment_id: commentId }
         })
             .then(() => {
                 window.location.reload();
