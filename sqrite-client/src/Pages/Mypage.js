@@ -13,13 +13,12 @@ class Mypage extends React.Component {
             commentData: fakeData.commentData
         }
     }
-
     // userinfo의 Id와 일치하는 포스트, 댓글만을 가져와야 한다.
-    async getUserCurrentPosts(){
+    async getUserCurrentPosts() {
         const { userinfo } = this.props;
-        const currentPosts = await axios.get("http://localhost:4000/post/content",{
-            params : {
-                userId : userinfo.id
+        const currentPosts = await axios.get("http://localhost:4000/post/content", {
+            params: {
+                userId: userinfo.id
             }
         },{
             headers:{'Authorization': `Bearer ${this.props.accessToken}`}
@@ -34,11 +33,11 @@ class Mypage extends React.Component {
         }
     }
 
-    async getUserCurrentCommnents(){
+    async getUserCurrentCommnents() {
         const { userinfo } = this.props;
-        const currentComments = await axios.get("http://localhost:4000/comment/comment",{
-            params : {
-                userId : userinfo.id
+        const currentComments = await axios.get("http://localhost:4000/comment/comment", {
+            params: {
+                userId: userinfo.id
             }
         },{
             headers:{'Authorization': `Bearer ${this.props.accessToken}` }
@@ -52,11 +51,10 @@ class Mypage extends React.Component {
             })
         }
     }
-
-
+    
     render() {
         const { postData, commentData } = this.state;
-        const { handlePostClick } = this.props;
+        const { setPostId } = this.props;
         const { email, username, createdAt } = this.props.userinfo
         return (
             <div id="mypage-container">
@@ -80,13 +78,13 @@ class Mypage extends React.Component {
                                 <div className="mylists-title">
                                     <span>My Questions</span>
                                 </div>
-                                {postData.map(el => <Mypagepreview myData={el} handlePostClick={handlePostClick} />)}
+                                {postData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                {commentData.map(el => <Mypagepreview myData={el} handlePostClick={handlePostClick} />)}
+                                {commentData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
                             </div>
                         </div>
                     </div>

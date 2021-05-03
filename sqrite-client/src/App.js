@@ -6,40 +6,70 @@ import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
+import Postpage from './Pages/Postpage';
 import fakeData from "./Components/test/fakeData" // for test
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: false,
+      isLogin: localStorage.getItem("loggedInfo"),
       userinfo: fakeData.userinfo,
       postId: 1,
       accessToken : ""
     };
-    this.handlePostClick = this.handlePostClick.bind(this);
+    this.setPostId = this.setPostId.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
-  handlePostClick(id) {
+  setPostId(id) {
     console.log(id)
     // this.setState({ postId: id })
   }
 
-  handleLoginSuccess(accessToken){
+  initializeUserInfo(){
+    if(localStorage.getItem("loggedInfo")===true){
+      this.setState({
+        isLogin : true
+      })
+    }
+  }
+
+  handleLoginSuccess(accessToken, email){
     this.setState({
       isLogin : true,
-      accessToken
+      accessToken,
+      email : email
     })
+    localStorage.setItem("loggedInfo", true)
+  }
+
+  componentWillMount(){
+    const loggedInfo = localStorage.getItem("loggedInfo")
+    if(loggedInfo){
+      this.setState({
+        isLogin : JSON.parse(loggedInfo)
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(JSON.stringify(prevState.loggedInfo)!==JSON.stringify(this.state.isLogin)){
+      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
+    }
   }
 
   async handleLogout() {
-    await axios.get("http://localhost:4000/user/logout",{
-      headers:{'Authorization': `Bearer ${this.state.accessToken}`}
+    const { email } = this.state;
+    console.log(email)
+    await axios.post("http://localhost:4000/user/logout",{
+      email
     },{
       withCrendentials : true
     });
-    this.setState({ userinfo: null, isLogin: false });
+    this.setState({ userinfo: null, isLogin: false, accessToken : null });
+    localStorage.setItem("loggedInfo", false)
     this.props.history.push('/');
   }
 
@@ -53,18 +83,21 @@ class App extends React.Component {
               isLogin={isLogin}
               userinfo={userinfo}
               postId={postId}
-              handlePostClick={this.handlePostClick}
-              accessToken={accessToken}
+              setPostId={this.setPostId}
+              handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
             <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess}/>
           </Route>
           <Route path="/myinfo">
-            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} accessToken={accessToken}/>
+            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} accessToken={accessToken} handleLogout={this.handleLogout}/>
           </Route>
           <Route path="/detail">
             <Detailpage userId={userinfo.id} postId={postId} accessToken={accessToken}/>
+          </Route>
+          <Route path="/post">
+            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
           </Route>
         </Switch>
       </Router>

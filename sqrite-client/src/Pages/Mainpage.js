@@ -12,8 +12,10 @@ class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allPost: fakeData.allPost
+            allPost: fakeData.allPost,
+            // searchWord : ""
         };
+        // this.searchWord = this.searchWord.bind(this);
     };
 
     componentDidMount() {
@@ -25,9 +27,27 @@ class MainPage extends React.Component {
         this.setState({ allPost: getAllPost });
     }
 
+    // searchWord = (e) => {
+    //     this.setState({ 
+    //         searchWord : e.target.value 
+    //     });
+    // };
+
+    // async filterContent(){
+    //     const { searchWord } = this.state;
+    //     if(searchWord.length!==0){
+    //         const filteredContents = await this.state.allPost.filter((eachPost)=>{
+    //             return eachPost.title.includes(searchWord);
+    //         });
+    //         this.setState({
+    //             allPost : filteredContents
+    //         });
+    //     }
+    // }
+
     render() {
-        const { handlePostClick , isLogin } = this.props;
-        const { allPost } = this.state;
+        const { handleLogout, setPostId, isLogin } = this.props;
+        const { allPost } = this.state; 
         return (
             <div id="mainpage-container">
                 <div id="navbar">
@@ -36,19 +56,21 @@ class MainPage extends React.Component {
                     </div >
                     <div className="login-box">
                         { isLogin === true 
-                        ? <button>WRITE</button>
-                        : null
+                        ? <div>
+                            <button>WRITE</button> 
+                            <button className="logout-btn" onClick={()=>handleLogout()}>LOGOUT</button>
+                            <span className="mypage">Mypage</span>
+                        </div>
+                        : <button className="login-btn" onClick={()=>this.props.history.push("/sign")}>Login</button>
                         }
-                        <span className="mypage">Mypage</span>
-                        <button className="login-btn">Login</button>
                     </div>
                 </div>
                 <div className="content-box">
                     <div className="search-box">
-                        <input placeholder="검색어를 입력해주세요" id="main-input"></input>
+                        <input type="search" placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(el => <Postpreview postData={el} handlePostClick={handlePostClick} />)}
+                        {allPost.map(eachPost => <Postpreview postData={eachPost} setPostId={setPostId} />)}
                     </ul>
                 </div>
             </div>

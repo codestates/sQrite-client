@@ -55,7 +55,7 @@ class Detailpage extends React.Component {
                     post_id : postId
                 }
             },{
-                headers:{'Authorization': `Bearer ${this.props.accessToken}` }
+                headers:{'Authorization': `Bearer ${this.props.accessToken}`}
             }).then((res)=>{
                 alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
