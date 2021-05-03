@@ -24,14 +24,15 @@ class Detailpage extends React.Component {
         autosize(detailTextarea);
         autosize(postUpdateTextarea);
         this.postUserVerify(this.btnOnDisplay);
-
-        // this.getDetailPage(this.props.postId);
+        this.getDetailPage(this.props.postId);
     }
 
     async getDetailPage(postId) {
         const getCurrentPost = await axios.get(`http://localhost:4000/post/content?post_id=${postId}`);
+        console.log(getCurrentPost.data[0])
         const getCurrentComment = await axios.get(`http://localhost:4000/comment/comment?post_id=${postId}`);
-        this.setState({ currentPost: getCurrentPost, currentComment: getCurrentComment });
+        console.log(getCurrentComment.data)
+        this.setState({ currentPost: getCurrentPost.data[0], currentComment: getCurrentComment.data });
     }
 
     // 게시물 삭제 메소드
@@ -120,7 +121,9 @@ class Detailpage extends React.Component {
 
     updateInputOnDisplay() {
         const updateInput = document.getElementsByClassName("update-input-display")[0];
+        const postUpdateTextarea = document.getElementById("post-update-textarea");
         if (updateInput.style.display === "none") {
+            postUpdateTextarea.defaultValue = this.state.currentPost.content;
             updateInput.style.display = "block";
         } else {
             updateInput.style.display = "none"
@@ -147,15 +150,14 @@ class Detailpage extends React.Component {
                 </div>
                 <div className="detail-content-box-flex">
                     <div className="detail-q-title-box">
-
-                        <h1 className="detail-q-title">안녕하세요, 질문이 있습니다. {this.props.postId} </h1>
+                        <h1 className="detail-q-title">{currentPost.title}</h1>
                         <span style={{ display: "none" }} className="post-btn-display">
                             <button onClick={() => this.updateInputOnDisplay()}>MODIFY</button>
                             <button onClick={() => this.deletePost()}>DELETE</button>
                         </span>
                         <div className="detail-title-detail">
                             <span>Question from Gwan-Woo-Jeong</span><br></br>
-                            <span>{currentPost.created_at}</span>
+                            <span>{currentPost.createdAt}</span>
                         </div>
                     </div>
                     <div className="detail-padding">
@@ -166,7 +168,6 @@ class Detailpage extends React.Component {
                             <textarea
                                 id="post-update-textarea"
                                 type='text'
-                                defaultValue={this.state.currentPost.content}
                                 onChange={(e) => this.handleUpdateInput(e)}
                             ></textarea>
                             <button onClick={() => this.updatePost()}>
@@ -176,13 +177,13 @@ class Detailpage extends React.Component {
                     </div>
                     <div >
                         {currentComment.map(eachComment =>
-                            <div>
+                            <div key={eachComment.id}>
                                 <div className="detail-a-title-box">
-                                    <h2 className="detail-a-title">{eachComment.title}</h2>
+                                    <h2 className="detail-a-title">Re : {currentPost.title}</h2>
                                 </div>
                                 <div className="detail-title-detail">
                                     <span>Answer from Bo-Sung-Kim</span><br></br>
-                                    <span>{eachComment.created_at}</span>
+                                    <span>{eachComment.createdAt}</span>
                                 </div>
                                 {
                                     eachComment.user_id === this.props.userinfo.id
