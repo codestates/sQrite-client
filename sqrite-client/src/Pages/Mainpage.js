@@ -17,12 +17,13 @@ class MainPage extends React.Component {
     };
 
     componentDidMount() {
-        // this.getAllPost();
+        this.getAllPost();
     }
 
     async getAllPost() {
         const getAllPost = await axios.get("http://localhost:4000/post/content");
-        this.setState({ allPost: getAllPost });
+        console.log(getAllPost.data);
+        this.setState({ allPost: getAllPost.data });
     }
 
     render() {
@@ -50,7 +51,7 @@ class MainPage extends React.Component {
                         <input placeholder="검색어를 입력해주세요" id="main-input"></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(eachPost => <Postpreview postData={eachPost} setPostId={setPostId} />)}
+                        {allPost.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} setPostId={setPostId} />)}
                     </ul>
                 </div>
             </div>
