@@ -1,40 +1,50 @@
 import axios from 'axios';
 import React from 'react';
-import { Switch, BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
-import Postpage from './Pages/Postpage';
 import fakeData from "./Components/test/fakeData" // for test
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: true,
+      isLogin: false,
       userinfo: fakeData.userinfo,
-      postId: 2
+      postId: 1,
+      accessToken : ""
     };
     this.handlePostClick = this.handlePostClick.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
   }
 
   handlePostClick(id) {
     console.log(id)
-    this.setState({ postId: id });
+    // this.setState({ postId: id })
   }
 
-  // async 
-  handleLogout() {
-    // await axios.get("http://localhost:4000/user/logout");
+  handleLoginSuccess(accessToken){
+    this.setState({
+      isLogin : true,
+      accessToken
+    })
+  }
+
+  async handleLogout() {
+    await axios.get("http://localhost:4000/user/logout",{
+      headers:{'Authorization': `Bearer ${this.state.accessToken}`}
+    },{
+      withCrendentials : true
+    });
     this.setState({ userinfo: null, isLogin: false });
-    this.props.history.push("/");
+    this.props.history.push('/');
   }
 
   render() {
-    const { isLogin, userinfo, postId } = this.state;
+    const { isLogin, userinfo, postId, accessToken } = this.state;
     return (
       <Router>
         <Switch>
@@ -44,20 +54,17 @@ class App extends React.Component {
               userinfo={userinfo}
               postId={postId}
               handlePostClick={this.handlePostClick}
-              handleLogout={this.handleLogout}
+              accessToken={accessToken}
             />
           </Route>
           <Route path="/sign">
-            <Signpage />
+            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess}/>
           </Route>
           <Route path="/myinfo">
-            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} />
+            <Mypage handlePostClick={this.handlePostClick} userinfo={userinfo} accessToken={accessToken}/>
           </Route>
           <Route path="/detail">
-            <Detailpage postId={postId} userinfo={userinfo} />
-          </Route>
-          <Route path="/post">
-            <Postpage userinfo={userinfo} />
+            <Detailpage userId={userinfo.id} postId={postId} accessToken={accessToken}/>
           </Route>
         </Switch>
       </Router>
@@ -65,4 +72,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+export default App;

@@ -21,11 +21,17 @@ class Mypage extends React.Component {
             params : {
                 userId : userinfo.id
             }
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
+        },{
+            withCrendentials : true
         });
         // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
-        this.setState({
-            postData : currentPosts
-        })
+        if( currentPosts ){
+            this.setState({
+                postData : currentPosts
+            })
+        }
     }
 
     async getUserCurrentCommnents(){
@@ -34,10 +40,17 @@ class Mypage extends React.Component {
             params : {
                 userId : userinfo.id
             }
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}` }
+        },{
+            withCrendentials : true
         });
-        this.setState({
-            commentData : currentComments
-        })
+
+        if( currentComments ){
+            this.setState({
+                commentData : currentComments
+            })
+        }
     }
 
 

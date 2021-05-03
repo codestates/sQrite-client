@@ -54,6 +54,8 @@ class Detailpage extends React.Component {
                 params : {
                     post_id : postId
                 }
+            },{
+                headers:{'Authorization': `Bearer ${this.props.accessToken}` }
             }).then((res)=>{
                 alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
@@ -78,11 +80,6 @@ class Detailpage extends React.Component {
         });
     }
 
-    // 게시물의 내용을 수정하고 업데이트 하는 메소드
-    // input 폼 show/hide 하는 방식을 css로 처리하는 걸로...
-    updatePost(){
-    }
-
     // 답글을 가져오는 메소드
     getComment(){    
         const { userId, postId } = this.props;
@@ -102,10 +99,14 @@ class Detailpage extends React.Component {
     // 댓글을 작성하는 메소드
     createComment(){
         const { userId, postId } = this.props;
-        axios.post("http://localhost:4000/comment/commen",{
+        axios.post("http://localhost:4000/comment/comment",{
             user_id : userId,
             post_id : postId,
             // content : input comment value...
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}`}
+        },{
+            withCrendentials : true
         }).then((res)=>{
             if(res.status===200){ 
                 // 정상적으로 댓글이 작성되고 데이터에 추가되었다면 댓글 입력창을 다시 초기화 해주어야 함.
@@ -119,7 +120,12 @@ class Detailpage extends React.Component {
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
         axios.delete("http://localhost:4000/comment/comment",{
             params : commentId
+        },{
+            headers:{'Authorization': `Bearer ${this.props.accessToken}` }
+        },{
+            withCrendentials : true
         }).then((res)=>{
+            if(res) alert("정상적으로 삭제되었습니다.");
         })
     }
 
@@ -181,7 +187,7 @@ class Detailpage extends React.Component {
                                     <span>{el.created_at}</span>
                             </div>
                             {
-                            el.user_id!==userId
+                            el.user_id===userId
                             ?
                             <button onClick={()=>this.deleteComment(el.id)}>DELETE</button>
                             :
@@ -197,6 +203,11 @@ class Detailpage extends React.Component {
                         <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!"></textarea>
                         <button id="answer-btn">Submit</button>
                     </div>
+                    <div>
+                    <button onClick={()=>this.props.history.push("/")}>
+                        목록
+                    </button>
+                </div>
                 </div>
             </div>
         )
