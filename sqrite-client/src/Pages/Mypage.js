@@ -13,29 +13,39 @@ class Mypage extends React.Component {
             commentData: fakeData.commentData
         }
     }
+
+    componentDidMount() {
+        this.loadMypage();
+    }
+
+    async loadMypage() {
+        await this.getUserCurrentCommnents();
+        await this.getUserCurrentPosts();
+    }
+
     // userinfo의 Id와 일치하는 포스트, 댓글만을 가져와야 한다.
     async getUserCurrentPosts() {
-        const { userinfo } = this.props;
         const currentPosts = await axios.get("http://localhost:4000/post/content", {
             params: {
-                userId: userinfo.id
+                user_id: this.props.userinfo.id
             }
         });
+        console.log(currentPosts.data)
         // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
         this.setState({
-            postData: currentPosts
+            postData: currentPosts.data
         })
     }
 
     async getUserCurrentCommnents() {
-        const { userinfo } = this.props;
         const currentComments = await axios.get("http://localhost:4000/comment/comment", {
             params: {
-                userId: userinfo.id
+                user_id: this.props.userinfo.id
             }
         });
+        console.log(currentComments.data)
         this.setState({
-            commentData: currentComments
+            commentData: currentComments.data
         })
     }
     render() {
@@ -64,13 +74,13 @@ class Mypage extends React.Component {
                                 <div className="mylists-title">
                                     <span>My Questions</span>
                                 </div>
-                                {postData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
+                                {postData.map(eachPost => <Mypagepreview myData={eachPost} setPostId={setPostId} />)}
                             </div>
                             <div className="mylists-flex">
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                {commentData.map(el => <Mypagepreview myData={el} setPostId={setPostId} />)}
+                                {commentData.map(eachComment => <Mypagepreview myData={eachComment} setPostId={setPostId} />)}
                             </div>
                         </div>
                     </div>

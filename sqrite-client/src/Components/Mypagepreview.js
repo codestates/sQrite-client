@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Mypagepreview(props) {
-    const { title, created_at, id } = props.myData;
+    const { title, createdAt, id } = props.myData;
     const { setPostId } = props;
     return (
         <div className="mylists-container">
@@ -11,7 +11,7 @@ function Mypagepreview(props) {
                 <span className="mylists-content-tag">태그1</span>
                 <span className="mylists-content-tag">태그2</span>
                 <span className="mylists-content-tag">태그3</span>
-                <div className="mylists-content-detail">{created_at}</div>
+                <div className="mylists-content-detail">{createdAt}</div>
             </div>
         </div>
     )
