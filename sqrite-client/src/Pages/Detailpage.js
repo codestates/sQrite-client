@@ -45,10 +45,8 @@ class Detailpage extends React.Component {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
             axios.delete("http://localhost:4000/post/content", {
-                params: {
-                    post_id: this.props.postId
-                }
-            }).then((res) => {
+                data: {post_id: this.props.postId }
+            }).then(() => {
                 this.props.history.push("/");
                 alert("게시물이 삭제되었습니다.")
             })

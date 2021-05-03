@@ -21,7 +21,7 @@ class App extends React.Component {
         createdAt: "2021-05-03 06:10:21",
         updatedAt: "2021-05-03 06:10:21"
       },
-      postId: null
+      postId: 4
     };
     this.setPostId = this.setPostId.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
