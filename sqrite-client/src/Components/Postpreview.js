@@ -14,7 +14,6 @@ function Postpreview(props) {
                 <span className="qp-tag">태그1</span>
                 <span className="qp-tag">태그2</span>
                 <span className="qp-tag">태그3</span>
-                <span className="qp-tag">태그3</span>
                 <div className="qp-detail">
                     <span>{created_at} by {username}</span>
                 </div>

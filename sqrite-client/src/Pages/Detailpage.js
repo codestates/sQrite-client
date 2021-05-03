@@ -17,16 +17,14 @@ class Detailpage extends React.Component {
     };
 
     componentDidMount() {
-        // 인풋 창 오토사이징
         const detailTextarea = document.getElementById("detail-textarea");
         const postUpdateTextarea = document.getElementById("post-update-textarea");
         detailTextarea.focus();
         postUpdateTextarea.focus();
         autosize(detailTextarea);
         autosize(postUpdateTextarea);
-
-        // 작성자의 userinfo - id와 게시글의 user_id를 비교하여 질문 수정, 삭제 버튼 생성
         this.postUserVerify(this.btnOnDisplay);
+
         // this.getDetailPage(this.props.postId);
     }
 
@@ -46,8 +44,8 @@ class Detailpage extends React.Component {
                     post_id: this.props.postId
                 }
             }).then((res) => {
-                alert("게시물이 삭제되었습니다.")
                 this.props.history.push("/");
+                alert("게시물이 삭제되었습니다.")
             })
         }
     }
@@ -177,24 +175,24 @@ class Detailpage extends React.Component {
                         </div>
                     </div>
                     <div >
-                        {currentComment.map(el =>
+                        {currentComment.map(eachComment =>
                             <div>
                                 <div className="detail-a-title-box">
-                                    <h2 className="detail-a-title">{el.title}</h2>
+                                    <h2 className="detail-a-title">{eachComment.title}</h2>
                                 </div>
                                 <div className="detail-title-detail">
                                     <span>Answer from Bo-Sung-Kim</span><br></br>
-                                    <span>{el.created_at}</span>
+                                    <span>{eachComment.created_at}</span>
                                 </div>
                                 {
-                                    el.user_id === this.props.userinfo.id
+                                    eachComment.user_id === this.props.userinfo.id
                                         ?
-                                        <button onClick={() => this.deleteComment(el.id)}>DELETE</button>
+                                        <button onClick={() => this.deleteComment(eachComment.id)}>DELETE</button>
                                         :
                                         null
                                 }
                                 <div className="detail-content">
-                                    {el.content}
+                                    {eachComment.content}
                                 </div>
                             </div>
                         )}

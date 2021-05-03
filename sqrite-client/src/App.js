@@ -26,9 +26,8 @@ class App extends React.Component {
     this.setState({ postId: id });
   }
 
-  // async 
-  handleLogout() {
-    // await axios.get("http://localhost:4000/user/logout");
+  async handleLogout() {
+    await axios.get("http://localhost:4000/user/logout");
     this.setState({ userinfo: null, isLogin: false });
     this.props.history.push("/");
   }
