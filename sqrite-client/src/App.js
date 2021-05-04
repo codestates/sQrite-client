@@ -81,6 +81,7 @@ class App extends React.Component {
     this.props.history.push('/');
   }
 
+
   render() {
     const { isLogin, userinfo } = this.state;
     return (

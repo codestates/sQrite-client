@@ -9,8 +9,8 @@ class Mypage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            postData: fakeData.postData,
-            commentData: fakeData.commentData
+            postData: null,
+            commentData: null
         }
     }
 
@@ -64,6 +64,11 @@ class Mypage extends React.Component {
         const { postData, commentData } = this.state;
         const { setPostId } = this.props;
         const { email, username, createdAt } = this.props.userinfo
+        if (!postData || !commentData) {
+            return (
+                <div>Loading...</div>
+            )
+        }
         return (
             <div id="mypage-container">
                 <div className="logo-box-flex">
