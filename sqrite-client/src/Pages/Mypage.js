@@ -20,6 +20,7 @@ class Mypage extends React.Component {
     }
 
     async loadMypage() {
+        
         await this.getUserCurrentCommnents();
         await this.getUserCurrentPosts();
     }
@@ -58,6 +59,7 @@ class Mypage extends React.Component {
         }
     }
     render() {
+        let userinfo = localStorage.getItem('userinfo');
         const { postData, commentData } = this.state;
         const { email, username, createdAt } = this.props.userinfo
         if (!postData || !commentData) {

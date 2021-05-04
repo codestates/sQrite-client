@@ -77,10 +77,9 @@ class Detailpage extends React.Component {
     }
     // 답글을 가져오는 메소드
     getComment() {
-        const { userId } = this.props;
         axios.get("http://localhost:4000/comment/comment", {
             params: {
-                user_id: userId,
+                user_id: this.props.userinfo.id,
                 post_id: this.props.match.params.postId
             }
         }
