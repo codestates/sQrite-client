@@ -9,26 +9,26 @@ class Detailpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPost: fakeData.allPost[0],
-            currentComment: fakeData.commentData,
+            currentPost: null,
+            currentComment: null,
             updatePostInput: "",
             commentInput: ""
         };
     };
 
     componentDidMount() {
-        const detailTextarea = document.getElementById("detail-textarea");
-        const postUpdateTextarea = document.getElementById("post-update-textarea");
-        detailTextarea.focus();
-        postUpdateTextarea.focus();
-        autosize(detailTextarea);
-        autosize(postUpdateTextarea);
         this.loadDetailPage();
     }
 
     async loadDetailPage() {
         await this.getDetailPage(this.props.match.params.postId);
         await this.postUserVerify(this.btnOnDisplay);
+        const detailTextarea = document.getElementById("detail-textarea");
+        const postUpdateTextarea = document.getElementById("post-update-textarea");
+        detailTextarea.focus();
+        postUpdateTextarea.focus();
+        autosize(detailTextarea);
+        autosize(postUpdateTextarea);
     }
 
     async getDetailPage(postId) {
@@ -165,6 +165,11 @@ class Detailpage extends React.Component {
 
     render() {
         const { currentPost, currentComment } = this.state;
+        if (!currentComment || !currentPost) {
+            return (
+                <div>loading...</div>
+            )
+        }
         return (
             <div id="detailpage-container">
                 <div>
