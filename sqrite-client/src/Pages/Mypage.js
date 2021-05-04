@@ -8,6 +8,7 @@ import fakeData from "../Components/test/fakeData" // for test
 class Mypage extends React.Component {
     constructor(props) {
         super(props);
+        //userinfo가 props
         this.state = {
             postData: null,
             commentData: null
@@ -29,9 +30,7 @@ class Mypage extends React.Component {
             params: {
                 user_id: this.props.userinfo.id
             }
-        }, {
-            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
-        }, {
+        },{
             withCrendentials: true
         });
         console.log(currentPosts.data)
@@ -46,10 +45,8 @@ class Mypage extends React.Component {
     async getUserCurrentCommnents() {
         const currentComments = await axios.get("http://localhost:4000/comment/comment", {
             params: {
-                user_id: this.props.userinfo.id
+                user_id: this.props.userinfo.id //  user_id:1 => ?user_id=1
             }
-        }, {
-            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
         }, {
             withCrendentials: true
         });
@@ -62,7 +59,6 @@ class Mypage extends React.Component {
     }
     render() {
         const { postData, commentData } = this.state;
-        const { setPostId } = this.props;
         const { email, username, createdAt } = this.props.userinfo
         if (!postData || !commentData) {
             return (
@@ -97,7 +93,7 @@ class Mypage extends React.Component {
                                 <div className="mylists-title">
                                     <span>My Answers</span>
                                 </div>
-                                {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} setPostId={setPostId} />)}
+                                {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} />)}
                             </div>
                         </div>
                     </div>

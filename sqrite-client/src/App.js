@@ -13,63 +13,59 @@ class App extends React.Component {
     super(props);
     this.state = {
       // isLogin: localStorage.getItem("loggedInfo"),
-      isLogin: true,
-      userinfo: {
-        id: 4,
-        email: "test4@test.com",
-        password: "1234",
-        username: "kimcoding4",
-        createdAt: "2021-05-03 06:10:21",
-        updatedAt: "2021-05-03 06:10:21"
-      },
+      isLogin: false,
+      userinfo: {},
       accessToken: ""
     };
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
   }
 
-  // initializeUserInfo() {
-  //   if (localStorage.getItem("loggedInfo") === true) {
-  //     this.setState({
-  //       isLogin: true
-  //     })
-  //   }
-  // }
+  initializeUserInfo() {
+    if (localStorage.getItem("loggedInfo") === true) {
+      this.setState({
+        isLogin: true
+      })
+    }
+  }
 
-  // handleLoginSuccess(accessToken, email) {
-  //   this.setState({
-  //     isLogin: true,
-  //     accessToken,
-  //     email: email
-  //   })
-  //   localStorage.setItem("loggedInfo", true)
-  // }
+  handleLoginSuccess(accessToken, userinfo) {
+    this.setState({
+      isLogin: true,
+      accessToken: accessToken,
+      userinfo: userinfo
+    });
+    localStorage.setItem("loggedInfo", true);
+  }
 
-  // componentWillMount() {
-  //   const loggedInfo = localStorage.getItem("loggedInfo")
-  //   if (loggedInfo) {
-  //     this.setState({
-  //       isLogin: JSON.parse(loggedInfo)
-  //     })
-  //   }
-  // }
+  componentWillMount() {
+    const loggedInfo = localStorage.getItem("loggedInfo")
+    if (loggedInfo) {
+      this.setState({
+        isLogin: JSON.parse(loggedInfo)
+      })
+    }
+  }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (JSON.stringify(prevState.loggedInfo) !== JSON.stringify(this.state.isLogin)) {
-  //     localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState.loggedInfo) !== JSON.stringify(this.state.isLogin)) {
+      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
+    }
+  }
 
-  // async handleLogout() {
-  //   const { email } = this.state;
-  //   console.log(email)
-  //   await axios.post("http://localhost:4000/user/logout", {
-  //     email
-  //   }, {
-  //     withCrendentials: true
-  //   });
-  //   this.setState({ userinfo: null, isLogin: false, accessToken: null });
-  //   localStorage.setItem("loggedInfo", false)
-  //   this.props.history.push('/');
-  // }
+  async handleLogout() {
+    const { email } = this.state.userinfo;
+    console.log(email)
+    await axios.post("http://localhost:4000/user/logout", {
+      email
+    }, {
+      withCrendentials: true
+    })
+    .then(()=>{
+      this.setState({ userinfo: null, isLogin: false, accessToken: null });
+      localStorage.setItem("loggedInfo", false)
+      this.props.history.push('/');
+    }).catch(err=> console.log(err))
+  }
 
   render() {
     const { isLogin, userinfo } = this.state;

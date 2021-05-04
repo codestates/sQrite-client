@@ -35,27 +35,31 @@ class Signpage extends React.Component {
     handleLogin = () => {
         // 로그인할 때는 state에서 email, password의 값만 확인하면 된다.
         const { email, password } = this.state;
+
         if(email.length===0 || password.length===0){
             this.setState({
                 errorMessage : "이메일과 비밀번호 모두 입력해야 로그인이 가능합니다."
             })
-        }else{
+        } else {
             // login 동작은 서버에 post 요청을 전송해주어야 함.
             axios.post("http://localhost:4000/user/login",{
                 email,
                 password 
-            }).then((res)=>{ 
+            })
+            .then((res)=>{ 
                 // console.log(res)
-                if(res.status===200){ // 만약 로그인이 정상적으로 이루어져서 서버에서 토큰을 받아왔다면 if(res.body.accessToken)
+                if (res.status===200) { // 만약 로그인이 정상적으로 이루어져서 서버에서 토큰을 받아왔다면 if(res.body.accessToken)
+                    console.log(res)
                     this.props.handleLoginSuccess(
                         res.data.data.accessToken,
-                        email
+                        res.data.userinfo
                     );
                     this.props.history.push("/"); // 로그인 후 main page로 이동
-                }else if(res.status===404){
+                } else if (res.status===404) {
                     alert("올바른 이메일과 비밀번호를 입력해주십시오.");
                 }    
-            }).catch((err)=>{
+            })
+            .catch((err)=>{
                 console.log(err);
             })
         }
