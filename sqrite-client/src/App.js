@@ -17,7 +17,9 @@ class App extends React.Component {
       userinfo: {},
       accessToken: ""
     };
+    this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
   initializeUserInfo() {
@@ -28,6 +30,7 @@ class App extends React.Component {
     }
   }
 
+  
   handleLoginSuccess(accessToken, userinfo) {
     this.setState({
       isLogin: true,

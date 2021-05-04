@@ -185,7 +185,7 @@ class Signpage extends React.Component {
                         <button
                             className="btn btn-login"
                             type='submit'
-                            onClick={this.handleLogin}
+                            onClick={()=>this.handleLogin()}
                         >
                             SUBMIT
                         </button>

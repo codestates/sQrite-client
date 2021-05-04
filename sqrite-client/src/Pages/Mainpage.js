@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
@@ -13,9 +13,9 @@ class MainPage extends React.Component {
         super(props);
         this.state = {
             allPost: fakeData.allPost,
-            // searchWord : ""
+            searchWord : ""
         };
-        // this.searchWord = this.searchWord.bind(this);
+        this.searchWord = this.searchWord.bind(this);
     };
 
     componentDidMount() {
@@ -28,27 +28,18 @@ class MainPage extends React.Component {
         this.setState({ allPost: getAllPost.data });
     }
 
-    // searchWord = (e) => {
-    //     this.setState({ 
-    //         searchWord : e.target.value 
-    //     });
-    // };
-
-    // async filterContent(){
-    //     const { searchWord } = this.state;
-    //     if(searchWord.length!==0){
-    //         const filteredContents = await this.state.allPost.filter((eachPost)=>{
-    //             return eachPost.title.includes(searchWord);
-    //         });
-    //         this.setState({
-    //             allPost : filteredContents
-    //         });
-    //     }
-    // }
+    searchWord = (e) => {
+        this.setState({ 
+            searchWord : e.target.value 
+        });
+    };
 
     render() {
         const { handleLogout, isLogin } = this.props;
-        const { allPost } = this.state;
+        const { allPost, searchWord } = this.state;
+        const filteredContent = allPost.filter(eachPost=> {
+            return eachPost.title.toLowerCase().includes(searchWord);
+        })
         return (
             <div id="mainpage-container">
                 <div id="navbar">
@@ -68,10 +59,10 @@ class MainPage extends React.Component {
                 </div>
                 <div className="content-box">
                     <div className="search-box">
-                        <input type="search" placeholder="검색어를 입력해주세요" id="main-input"></input>
+                        <input type="search" placeholder="검색어를 입력해주세요" id="main-input" onChange={this.searchWord}></input>
                     </div>
                     <ul className="question-list-box">
-                        {allPost.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)}
+                        {filteredContent.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)}
                     </ul>
                 </div>
             </div>
