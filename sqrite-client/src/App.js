@@ -1,0 +1,111 @@
+import axios from 'axios';
+import React from 'react';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import './App.css';
+import Detailpage from './Pages/Detailpage';
+import Mainpage from './Pages/Mainpage';
+import Mypage from './Pages/Mypage';
+import Signpage from './Pages/Signpage';
+import Postpage from './Pages/Postpage';
+import fakeData from "./Components/test/fakeData" // for test
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // isLogin: localStorage.getItem("loggedInfo"),
+      isLogin: false,
+      userinfo: {},
+      accessToken: ""
+    };
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    // this.initializeUserInfo = this.initializeUserInfo.bind(this);
+  }
+
+  // initializeUserInfo() {
+  //   if (localStorage.getItem("loggedInfo") === true) {
+  //     this.setState({
+  //       isLogin: true,
+  //     })
+  //   }
+  // }
+
+  
+  handleLoginSuccess(accessToken, userinfo) {
+    this.setState({
+      isLogin: true,
+      accessToken: accessToken,
+      userinfo: userinfo
+    });
+    localStorage.setItem("loggedInfo", true);
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("userinfo", JSON.stringify(userinfo));
+  }
+
+  componentWillMount() {
+    const loggedInfo = localStorage.getItem("loggedInfo")
+    const userinfo = localStorage.getItem("userinfo");
+    const accessToken = localStorage.getItem("accessToken");
+    if (loggedInfo) {
+      this.setState({
+        isLogin: JSON.parse(loggedInfo),
+        userinfo: JSON.parse(userinfo),
+        accessToken: accessToken
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState.loggedInfo) !== JSON.stringify(this.state.isLogin)) {
+      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
+    }
+  }
+
+  async handleLogout() {
+    const { email } = this.state.userinfo;
+    console.log(email)
+    await axios.post("http://localhost:4000/user/logout", {
+      email
+    }, {
+      withCrendentials: true
+    })
+    .then(()=>{
+      this.setState({ userinfo: null, isLogin: false, accessToken: null });
+      localStorage.setItem("loggedInfo", false);
+      localStorage.setItem("accessToken", '');
+      localStorage.setItem("userinfo", {});
+      this.props.history.push('/');
+    }).catch(err=> console.log(err))
+  }
+  // state 항상 변해야하는데 새로고침하면 상태가 다시 처음으로 돌아간다. 
+  render() {
+    const { isLogin, userinfo } = this.state;
+    return (
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <Mainpage
+              isLogin={isLogin}
+              userinfo={userinfo}
+              handleLogout={this.handleLogout}
+            />
+          </Route>
+          <Route path="/sign">
+            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess} />
+          </Route>
+          <Route path="/myinfo">
+            <Mypage userinfo={userinfo} />
+          </Route>
+          <Route path="/detail/:postId">
+            <Detailpage userinfo={userinfo} />
+          </Route>
+          <Route path="/post">
+            <Postpage userinfo={userinfo} />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App;
