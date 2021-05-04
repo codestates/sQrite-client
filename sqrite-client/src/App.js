@@ -13,45 +13,50 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogin: localStorage.getItem("loggedInfo"),
-      userinfo: fakeData.userinfo,
-      postId: 1,
-      accessToken : "",
-      email : ""
+      userinfo: {
+        id: 4,
+        email: "test4@test.com",
+        password: "1234",
+        username: "kimcoding4",
+        createdAt: "2021-05-03 06:10:21",
+        updatedAt: "2021-05-03 06:10:21"
+      },
+      accessToken: ""
     };
-    this.setPostId = this.setPostId.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
     this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
-  setPostId(id) {
-    console.log(id)
-    // this.setState({ postId: id })
-  }
-
-  initializeUserInfo(){
-    if(localStorage.getItem("loggedInfo")===true){
+  initializeUserInfo() {
+    if (localStorage.getItem("loggedInfo") === true) {
       this.setState({
-        isLogin : true
+        isLogin: true
       })
     }
   }
 
-  handleLoginSuccess(accessToken, email){
+  handleLoginSuccess(accessToken, email) {
     this.setState({
-      isLogin : true,
+      isLogin: true,
       accessToken,
-      email : email
+      email: email
     })
     localStorage.setItem("loggedInfo", true)
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const loggedInfo = localStorage.getItem("loggedInfo")
-    if(loggedInfo){
+    if (loggedInfo) {
       this.setState({
-        isLogin : JSON.parse(loggedInfo)
+        isLogin: JSON.parse(loggedInfo)
       })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState.loggedInfo) !== JSON.stringify(this.state.isLogin)) {
+      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
     }
   }
 
@@ -77,7 +82,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLogin, userinfo, postId } = this.state;
+    const { isLogin, userinfo } = this.state;
     return (
       <Router>
         <Switch>
@@ -85,25 +90,20 @@ class App extends React.Component {
             <Mainpage
               isLogin={isLogin}
               userinfo={userinfo}
-              postId={postId}
-              setPostId={this.setPostId}
               handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
-            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess}/>
+            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess} />
           </Route>
           <Route path="/myinfo">
-            <Mypage setPostId={this.setPostId} userinfo={userinfo} />
+            <Mypage userinfo={userinfo} />
           </Route>
-          <Route path="/detail">
-            <Detailpage postId={postId} userinfo={userinfo} />
-          </Route>
-          <Route path="/post">
-            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
+          <Route path="/detail/:postId">
+            <Detailpage userinfo={userinfo} />
           </Route>
           <Route path="/post">
-            <Postpage userinfo={userinfo} setPostId={this.setPostId} />
+            <Postpage userinfo={userinfo} />
           </Route>
         </Switch>
       </Router>
