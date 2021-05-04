@@ -20,7 +20,7 @@ class Mypage extends React.Component {
     }
 
     async loadMypage() {
-        
+
         await this.getUserCurrentCommnents();
         await this.getUserCurrentPosts();
     }
@@ -31,7 +31,7 @@ class Mypage extends React.Component {
             params: {
                 user_id: this.props.userinfo.id
             }
-        },{
+        }, {
             withCrendentials: true
         });
         console.log(currentPosts.data)
@@ -40,6 +40,7 @@ class Mypage extends React.Component {
             this.setState({
                 postData: currentPosts.data
             })
+            console.log("postData :", this.state.postData)
         }
     }
 
@@ -57,9 +58,9 @@ class Mypage extends React.Component {
                 commentData: currentComments.data
             })
         }
+        console.log("commentData :", this.state.commentData)
     }
     render() {
-        let userinfo = localStorage.getItem('userinfo');
         const { postData, commentData } = this.state;
         const { email, username, createdAt } = this.props.userinfo
         if (!postData || !commentData) {
@@ -79,8 +80,8 @@ class Mypage extends React.Component {
                             <div>이메일 : {email}</div>
                             <div>유저이름 : {username}</div>
                             <div>가입날짜 : {createdAt}</div>
-                            <div>질문 개수 : </div>
-                            <div>답변 개수 : </div>
+                            <div>질문 개수 : {postData.length}</div>
+                            <div>답변 개수 : {commentData.length}</div>
                         </div>
                     </div>
                     <div className="mylists-box">
