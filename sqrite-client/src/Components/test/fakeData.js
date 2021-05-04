@@ -2,7 +2,7 @@ const fakeData = {
     allPost: [
         {
             "id": "1",
-            "title": "안뇽하세요, 질문이 있습니다.",
+            "title": "Ajax call within WordPress returning entire HTML page in response",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -12,7 +12,7 @@ const fakeData = {
         },
         {
             "id": "2",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "Browser Extensions disable the JavaScript to get Client IP Address",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -22,7 +22,7 @@ const fakeData = {
         },
         {
             "id": "3",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "Node/Express: Render value taken from postgres via SELECT statement",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -32,7 +32,7 @@ const fakeData = {
         },
         {
             "id": "4",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "How to display selected values in Angular Materials table?",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -42,7 +42,7 @@ const fakeData = {
         },
         {
             "id": "5",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "In GraphQL what's the meaning of “edges” and “node”?",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -52,7 +52,7 @@ const fakeData = {
         },
         {
             "id": "6",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "How to decode jwt token in javascript without using a library?",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -62,7 +62,7 @@ const fakeData = {
         },
         {
             "id": "7",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "event.preventDefault() vs. return false",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",
@@ -72,7 +72,7 @@ const fakeData = {
         },
         {
             "id": "8",
-            "title": "안녕하세요, 질문이 있습니다.",
+            "title": "Extract filename and extension in Bash",
             "content": "content",
             "count_comments": "count_comments",
             "count_likes": "count_likes",

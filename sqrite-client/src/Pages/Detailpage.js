@@ -29,6 +29,13 @@ class Detailpage extends React.Component {
         postUpdateTextarea.focus();
         autosize(detailTextarea);
         autosize(postUpdateTextarea);
+        this.loadDetailPage();
+    }
+
+    async loadDetailPage() {
+        await this.getDetailPage(this.props.match.params.postId);
+        await this.postUserVerify(this.btnOnDisplay);
+
     }
 
     async getDetailPage(postId) {
