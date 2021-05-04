@@ -15,7 +15,8 @@ class App extends React.Component {
       isLogin: localStorage.getItem("loggedInfo"),
       userinfo: fakeData.userinfo,
       postId: 1,
-      accessToken : ""
+      accessToken : "",
+      email : ""
     };
     this.setPostId = this.setPostId.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -61,15 +62,17 @@ class App extends React.Component {
   }
 
   async handleLogout() {
-    const { email } = this.state;
-    console.log(email)
+    const loginEmail = localStorage.getItem("email");
     await axios.post("http://localhost:4000/user/logout",{
-      email
+      email : loginEmail
+    },{
+      headers:{'Authorization': `Bearer ${this.props.accessToken}`}
     },{
       withCrendentials : true
     });
     this.setState({ userinfo: null, isLogin: false, accessToken : null });
-    localStorage.setItem("loggedInfo", false)
+    localStorage.remove("loggedInfo")
+    localStorage.remove("email")
     this.props.history.push('/');
   }
 

@@ -28,23 +28,23 @@ class MainPage extends React.Component {
         this.setState({ allPost: getAllPost.data });
     }
 
-    // searchWord = (e) => {
-    //     this.setState({ 
-    //         searchWord : e.target.value 
-    //     });
-    // };
+    searchWord = (e) => {
+        this.setState({ 
+            searchWord : e.target.value 
+        });
+    };
 
-    // async filterContent(){
-    //     const { searchWord } = this.state;
-    //     if(searchWord.length!==0){
-    //         const filteredContents = await this.state.allPost.filter((eachPost)=>{
-    //             return eachPost.title.includes(searchWord);
-    //         });
-    //         this.setState({
-    //             allPost : filteredContents
-    //         });
-    //     }
-    // }
+    async filterContent(){
+        const { searchWord } = this.state;
+        if(searchWord.length!==0){
+            const filteredContents = await this.state.allPost.filter((eachPost)=>{
+                return eachPost.title.includes(searchWord);
+            });
+            this.setState({
+                allPost : filteredContents
+            });
+        }
+    }
 
     render() {
         const { handleLogout, setPostId, isLogin } = this.props;
@@ -59,7 +59,7 @@ class MainPage extends React.Component {
                         { isLogin === true 
                         ? <div>
                             <button>WRITE</button> 
-                            <button className="logout-btn" onClick={()=>handleLogout()}>LOGOUT</button>
+                            <button className="logout-btn" onClick={handleLogout}>LOGOUT</button>
                             <span className="mypage">Mypage</span>
                         </div>
                         : <button className="login-btn" onClick={()=>this.props.history.push("/sign")}>Login</button>
