@@ -34,7 +34,6 @@ class Mypage extends React.Component {
         }, {
             withCrendentials: true
         });
-        console.log(currentPosts.data)
         // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
         if (currentPosts) {
             this.setState({
@@ -52,7 +51,6 @@ class Mypage extends React.Component {
         }, {
             withCrendentials: true
         });
-
         if (currentComments) {
             this.setState({
                 commentData: currentComments.data
@@ -79,7 +77,7 @@ class Mypage extends React.Component {
                             <div>내 정보</div>
                             <div>이메일 : {email}</div>
                             <div>유저이름 : {username}</div>
-                            <div>가입날짜 : {createdAt}</div>
+                            <div>가입날짜 : {createdAt.split("T")[0]}</div>
                             <div>질문 개수 : {postData.length}</div>
                             <div>답변 개수 : {commentData.length}</div>
                         </div>
