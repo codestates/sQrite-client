@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Mypagepreview(props) {
-    const { title, createdAt, id } = props.myData;
+    const { id, createdAt } = props.myData;
+    let title;
+    if (props.myData.post) {
+        title = props.myData.post.title;
+    } else {
+        title = props.myData.title;
+    }
     return (
         <div className="mylists-container">
             <div className="mylists-content">
