@@ -12,7 +12,7 @@ class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allPost: fakeData.allPost,
+            allPost: null,
             searchWord : ""
         };
         this.searchWord = this.searchWord.bind(this);
@@ -37,6 +37,9 @@ class MainPage extends React.Component {
     render() {
         const { handleLogout, isLogin } = this.props;
         const { allPost, searchWord } = this.state;
+        if(this.state.allPost === null){
+            return <div>loading...</div>
+        }
         const filteredContent = allPost.filter(eachPost=> {
             return eachPost.title.toLowerCase().includes(searchWord);
         })
