@@ -19,16 +19,16 @@ class App extends React.Component {
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    this.initializeUserInfo = this.initializeUserInfo.bind(this);
+    // this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
-  initializeUserInfo() {
-    if (localStorage.getItem("loggedInfo") === true) {
-      this.setState({
-        isLogin: true
-      })
-    }
-  }
+  // initializeUserInfo() {
+  //   if (localStorage.getItem("loggedInfo") === true) {
+  //     this.setState({
+  //       isLogin: true,
+  //     })
+  //   }
+  // }
 
   
   handleLoginSuccess(accessToken, userinfo) {
@@ -38,13 +38,19 @@ class App extends React.Component {
       userinfo: userinfo
     });
     localStorage.setItem("loggedInfo", true);
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("userinfo", JSON.stringify(userinfo));
   }
 
   componentWillMount() {
     const loggedInfo = localStorage.getItem("loggedInfo")
+    const userinfo = localStorage.getItem("userinfo");
+    const accessToken = localStorage.getItem("accessToken");
     if (loggedInfo) {
       this.setState({
-        isLogin: JSON.parse(loggedInfo)
+        isLogin: JSON.parse(loggedInfo),
+        userinfo: JSON.parse(userinfo),
+        accessToken: accessToken
       })
     }
   }
@@ -65,11 +71,13 @@ class App extends React.Component {
     })
     .then(()=>{
       this.setState({ userinfo: null, isLogin: false, accessToken: null });
-      localStorage.setItem("loggedInfo", false)
+      localStorage.setItem("loggedInfo", false);
+      localStorage.setItem("accessToken", '');
+      localStorage.setItem("userinfo", {});
       this.props.history.push('/');
     }).catch(err=> console.log(err))
   }
-
+  // state 항상 변해야하는데 새로고침하면 상태가 다시 처음으로 돌아간다. 
   render() {
     const { isLogin, userinfo } = this.state;
     return (
