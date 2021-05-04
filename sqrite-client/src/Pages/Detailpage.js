@@ -58,9 +58,8 @@ class Detailpage extends React.Component {
             }, {
                 headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
             }).then((res) => {
-                alert("게시물이 삭제되었습니다.")
+                alert("게시물이 삭제되었습니다.");
                 this.props.history.push("/");
-                alert("게시물이 삭제되었습니다.")
             })
         }
     }
@@ -176,6 +175,8 @@ class Detailpage extends React.Component {
                 <div>loading...</div>
             )
         }
+        // currentPost.user.username
+        // currentComment[0].post.user.username
         return (
             <div id="detailpage-container">
                 <div>
@@ -189,8 +190,8 @@ class Detailpage extends React.Component {
                             <button onClick={() => this.deletePost()}>DELETE</button>
                         </span>
                         <div className="detail-title-detail">
-                            <span>Question from Gwan-Woo-Jeong</span><br></br>
-                            <span>{currentPost.createdAt}</span>
+                            <span>Question from {currentPost.user.username}</span><br></br>
+                            <span>{currentPost.createdAt.split("T")[0]}</span>
                         </div>
                     </div>
                     <div className="detail-padding">
@@ -215,8 +216,8 @@ class Detailpage extends React.Component {
                                     <h2 className="detail-a-title">Re : {currentPost.title}</h2>
                                 </div>
                                 <div className="detail-title-detail">
-                                    <span>Answer from Bo-Sung-Kim</span><br></br>
-                                    <span>{eachComment.createdAt}</span>
+                                    <span>Answer from {eachComment.user.username}</span><br></br>
+                                    <span>{eachComment.createdAt.split("T")[0]}</span>
                                 </div>
                                 {
                                     eachComment.user_id === this.props.userinfo.id
