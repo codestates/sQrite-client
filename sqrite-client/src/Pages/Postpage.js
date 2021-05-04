@@ -33,8 +33,6 @@ class Postpage extends React.Component {
             title: this.state.title,
             content: this.state.content
         }, {
-            headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
-        }, {
             withCrendentials: true
         })
             .then(res => {

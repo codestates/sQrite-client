@@ -12,15 +12,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: localStorage.getItem("loggedInfo"),
-      userinfo: {
-        id: 4,
-        email: "test4@test.com",
-        password: "1234",
-        username: "kimcoding4",
-        createdAt: "2021-05-03 06:10:21",
-        updatedAt: "2021-05-03 06:10:21"
-      },
+      // isLogin: localStorage.getItem("loggedInfo"),
+      isLogin: false,
+      userinfo: {},
       accessToken: ""
     };
     this.handleLogout = this.handleLogout.bind(this);
@@ -36,13 +30,14 @@ class App extends React.Component {
     }
   }
 
-  handleLoginSuccess(accessToken, email) {
+  
+  handleLoginSuccess(accessToken, userinfo) {
     this.setState({
       isLogin: true,
-      accessToken,
-      email: email
-    })
-    localStorage.setItem("loggedInfo", true)
+      accessToken: accessToken,
+      userinfo: userinfo
+    });
+    localStorage.setItem("loggedInfo", true);
   }
 
   componentWillMount() {
@@ -60,27 +55,20 @@ class App extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(JSON.stringify(prevState.loggedInfo)!==JSON.stringify(this.state.isLogin)){
-      localStorage.loggedInfo = JSON.stringify(this.state.isLogin)
-    }
-  }
-
   async handleLogout() {
-    const loginEmail = localStorage.getItem("email");
-    await axios.post("http://localhost:4000/user/logout",{
-      email : loginEmail
-    },{
-      headers:{'Authorization': `Bearer ${this.props.accessToken}`}
-    },{
-      withCrendentials : true
-    });
-    this.setState({ userinfo: null, isLogin: false, accessToken : null });
-    localStorage.remove("loggedInfo")
-    localStorage.remove("email")
-    this.props.history.push('/');
+    const { email } = this.state.userinfo;
+    console.log(email)
+    await axios.post("http://localhost:4000/user/logout", {
+      email
+    }, {
+      withCrendentials: true
+    })
+    .then(()=>{
+      this.setState({ userinfo: null, isLogin: false, accessToken: null });
+      localStorage.setItem("loggedInfo", false)
+      this.props.history.push('/');
+    }).catch(err=> console.log(err))
   }
-
 
   render() {
     const { isLogin, userinfo } = this.state;
