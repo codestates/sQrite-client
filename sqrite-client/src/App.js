@@ -24,9 +24,6 @@ class App extends React.Component {
       },
       accessToken: ""
     };
-    // this.handleLogout = this.handleLogout.bind(this);
-    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    // this.initializeUserInfo = this.initializeUserInfo.bind(this);
   }
 
   // initializeUserInfo() {
