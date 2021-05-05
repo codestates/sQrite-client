@@ -1,36 +1,29 @@
 import axios from 'axios';
 import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import './App.css';
+import './index.css'
 import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
 import Postpage from './Pages/Postpage';
+import Nav from './Components/Nav'
 import fakeData from "./Components/test/fakeData" // for test
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isLogin: localStorage.getItem("loggedInfo"),
+      isNavHidden: false,
       isLogin: false,
-      userinfo: {},
-      accessToken: ""
+      userinfo: { id: "Guest" },
+      accessToken: null
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    // this.initializeUserInfo = this.initializeUserInfo.bind(this);
+    this.hideNav = this.hideNav.bind(this);
   }
 
-  // initializeUserInfo() {
-  //   if (localStorage.getItem("loggedInfo") === true) {
-  //     this.setState({
-  //       isLogin: true,
-  //     })
-  //   }
-  // }
-
-  
   handleLoginSuccess(accessToken, userinfo) {
     this.setState({
       isLogin: true,
@@ -43,15 +36,16 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const loggedInfo = localStorage.getItem("loggedInfo")
-    const userinfo = localStorage.getItem("userinfo");
-    const accessToken = localStorage.getItem("accessToken");
-    if (loggedInfo) {
+    const loggedInfo = JSON.parse(localStorage.getItem("loggedInfo")); // 초기값 "null" -> 조건문에 그대로 넣으면 무조건 참 (파싱 필요)
+    if (loggedInfo) { // 로그인 상태 (localstorage에 loggedInfo = true)
       this.setState({
-        isLogin: JSON.parse(loggedInfo),
-        userinfo: JSON.parse(userinfo),
-        accessToken: accessToken
+        isLogin: loggedInfo,
+        userinfo: JSON.parse(localStorage.getItem("userinfo")),
+        accessToken: localStorage.getItem("accessToken")
       })
+      console.log(this.state)
+    } else { // 로그인이 안 된 상태 (null)
+      console.log("비로그인 상태")
     }
   }
 
@@ -62,36 +56,40 @@ class App extends React.Component {
   }
 
   async handleLogout() {
-    const { email } = this.state.userinfo;
-    console.log(email)
     await axios.post("http://localhost:4000/user/logout", {
-      email
+      email: this.state.userinfo.email
     }, {
       withCrendentials: true
     })
-    .then(()=>{
-      this.setState({ userinfo: null, isLogin: false, accessToken: null });
-      localStorage.setItem("loggedInfo", false);
-      localStorage.setItem("accessToken", '');
-      localStorage.setItem("userinfo", {});
-      this.props.history.push('/');
-    }).catch(err=> console.log(err))
+      .then(() => {
+        // userinfo의 id는 detailpage에서 post의 user_id와 비교하기 때문에 항상 있어야 함.
+        this.setState({ userinfo: { id: "Guest" }, isLogin: false, accessToken: null });
+        localStorage.clear();
+        window.location.reload();
+      }).catch(err => console.log(err))
   }
-  // state 항상 변해야하는데 새로고침하면 상태가 다시 처음으로 돌아간다. 
+
+  hideNav() {
+    this.setState({ isNavHidden: !this.state.isNavHidden })
+  }
   render() {
     const { isLogin, userinfo } = this.state;
     return (
       <Router>
+        {this.state.isNavHidden ?
+          null : <Nav isLogin={isLogin} handleLogout={this.handleLogout} />}
         <Switch>
           <Route path="/" exact>
             <Mainpage
               isLogin={isLogin}
-              userinfo={userinfo}
-              handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
-            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess} />
+            <Signpage
+              hideNav={this.hideNav}
+              isLogin={isLogin}
+              handleLoginSuccess={this.handleLoginSuccess}
+            />
           </Route>
           <Route path="/myinfo">
             <Mypage userinfo={userinfo} />
@@ -100,7 +98,10 @@ class App extends React.Component {
             <Detailpage userinfo={userinfo} />
           </Route>
           <Route path="/post">
-            <Postpage userinfo={userinfo} />
+            <Postpage
+              userinfo={userinfo}
+              hideNav={this.hideNav}
+            />
           </Route>
         </Switch>
       </Router>

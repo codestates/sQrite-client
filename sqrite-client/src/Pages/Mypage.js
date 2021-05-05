@@ -20,7 +20,7 @@ class Mypage extends React.Component {
     }
 
     async loadMypage() {
-        
+
         await this.getUserCurrentCommnents();
         await this.getUserCurrentPosts();
     }
@@ -31,15 +31,15 @@ class Mypage extends React.Component {
             params: {
                 user_id: this.props.userinfo.id
             }
-        },{
+        }, {
             withCrendentials: true
         });
-        console.log(currentPosts.data)
         // 데이터 받아왔을 떄 최근 글 3개만 나오게 해주어야 하는데 어떻게 구현하면 될지???
         if (currentPosts) {
             this.setState({
                 postData: currentPosts.data
             })
+            console.log("postData :", this.state.postData)
         }
     }
 
@@ -51,15 +51,14 @@ class Mypage extends React.Component {
         }, {
             withCrendentials: true
         });
-
         if (currentComments) {
             this.setState({
                 commentData: currentComments.data
             })
         }
+        console.log("commentData :", this.state.commentData)
     }
     render() {
-        let userinfo = localStorage.getItem('userinfo');
         const { postData, commentData } = this.state;
         const { email, username, createdAt } = this.props.userinfo
         if (!postData || !commentData) {
@@ -68,37 +67,28 @@ class Mypage extends React.Component {
             )
         }
         return (
-            <div id="mypage-container">
-                <div className="logo-box-flex">
-                    <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
-                </div>
-                <div className="content-box-flex">
-                    <div className="myinfo-box">
-                        <div className="myinfo">
-                            <div>내 정보</div>
-                            <div>이메일 : {email}</div>
-                            <div>유저이름 : {username}</div>
-                            <div>가입날짜 : {createdAt}</div>
-                            <div>질문 개수 : </div>
-                            <div>답변 개수 : </div>
+            <div className="px-8 w-max mx-auto mb-10 my-10">
+                <div className="mylists flex justify-between items-start">
+                    <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2 max-w-xs">
+                        <div className="text-center m-2 text-xl text-gray-600 font-bold">My Information</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">E-mail : {email}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Name : {username}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Sign Up : {createdAt.split("T")[0]}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Questions : {postData.length}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Answers : {commentData.length}</div>
+                    </ul>
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2 w-96">
+                        <div className="text-center m-2 text-xl pb-4 text-sqrite-green font-bold">
+                            My Questions
                         </div>
-                    </div>
-                    <div className="mylists-box">
-                        <div className="mylists">
-                            <div className="mylists-flex">
-                                <div className="mylists-title">
-                                    <span>My Questions</span>
-                                </div>
-                                {postData.map(eachPost => <Mypagepreview key={eachPost.id} myData={eachPost} />)}
-                            </div>
-                            <div className="mylists-flex">
-                                <div className="mylists-title">
-                                    <span>My Answers</span>
-                                </div>
-                                {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} />)}
-                            </div>
+                        {postData.map(eachPost => <Mypagepreview key={eachPost.id} myData={eachPost} />)}
+                    </ul>
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-yellow rounded-3xl pt-1 pl-2 pr-2 w-96">
+                        <div className="text-center m-2 text-xl pb-4 text-sqrite-yellow font-bold">
+                            My Answers
                         </div>
-                    </div>
+                        {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} />)}
+                    </ul>
                 </div>
             </div>
         )
