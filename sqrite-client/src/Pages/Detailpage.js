@@ -190,22 +190,26 @@ class Detailpage extends React.Component {
         return (
             <div className="max-w-2xl mx-auto mb-10">
                 <div className="border-sqrite-green border-2 rounded-xl mb-5">
-                    <div className="bg-sqrite-green flex p-3 rounded-lg rounded-b-none relative">
-                        <img src={questionMark} className="h-12" />
-                        <h1 id="post-update-title" className="text-white mx-3 text-xl w-max">{currentPost.title}</h1>
-                        <textarea
-                            style={{ display: "none" }}
-                            id="post-update-title-input"
-                            onChange={(e) => this.handleUpdateTitleInput(e)}
-                            className="border border-white text-white bg-sqrite-green p-3 rounded-xl mb-3 ml-3 outline-none w-3/5"></textarea>
-                        <span style={{ display: "none" }} className="post-btn-display absolute right-3 top-1">
-                            <button className="m-1 bg-sqrite-yellow text-white font-bold px-2 rounded-lg text-sm hover:bg-yellow-600"
-                                onClick={() => this.updateInputOnDisplay()}>FIX</button>
-                            <button className="m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
-                                onClick={() => this.deletePost()}>DEL</button>
-                        </span>
-                        <div className="text-white absolute right-3 bottom-3 text-sm">
-                            by {currentPost.createdAt.split("T")[0]} {currentPost.user.username}
+                    <div className="bg-sqrite-green flex p-3 pt-1 rounded-lg rounded-b-none relative overflow-hidden">
+                        <div className="m-auto flex-shrink-0">
+                            <img src={questionMark} className="h-12" />
+                        </div>
+                        <div className="flex-grow">
+                            <div style={{ display: "none" }} className="post-btn-display text-right">
+                                <button className="m-1 bg-sqrite-yellow text-white font-bold px-2 rounded-lg text-sm hover:bg-yellow-600"
+                                    onClick={() => this.updateInputOnDisplay()}>FIX</button>
+                                <button className="m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
+                                    onClick={() => this.deletePost()}>DEL</button>
+                            </div>
+                            <h1 id="post-update-title" className="text-white mx-3 text-xl py-2">{currentPost.title}</h1>
+                            <textarea
+                                style={{ display: "none" }}
+                                id="post-update-title-input"
+                                onChange={(e) => this.handleUpdateTitleInput(e)}
+                                className="border border-white text-white bg-sqrite-green p-3 rounded-xl mb-3 ml-3 outline-none w-3/5"></textarea>
+                            <div className="text-white text-sm text-right">
+                                by {currentPost.createdAt.split("T")[0]} {currentPost.user.username}
+                            </div>
                         </div>
                     </div>
                     <div className="p-4 text-base">
@@ -230,23 +234,23 @@ class Detailpage extends React.Component {
 
                 <div >
                     {currentComment.map(eachComment =>
-                        <div key={eachComment.id} className="border-sqrite-yellow border-2 rounded-xl flex relative mb-5">
-                            <div className="p-3 rounded-lg rounded-b-none relative">
-                                <img src={answer} className="h-12" />
-                            </div>
-                            <div>
+                        <div key={eachComment.id} className="border-sqrite-yellow border-2 rounded-xl flex relative mb-5 p-3 pt-1">
+                            <img src={answer} className="h-12 m-auto" />
+                            <div className="flex-grow">
                                 {
                                     eachComment.user_id === this.props.userinfo.id
                                         ?
-                                        <button className="absolute right-3 top-1 m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
-                                            onClick={() => this.deleteComment(eachComment.id)}>DEL</button>
+                                        <div className="text-right">
+                                            <button className=" m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
+                                                onClick={() => this.deleteComment(eachComment.id)}>DEL</button>
+                                        </div>
                                         :
                                         null
                                 }
-                                <div className="p-3">
+                                <div className="py-2 mx-3">
                                     {eachComment.content}
                                 </div>
-                                <div className="absolute text-gray-500 right-3 bottom-1 text-sm">
+                                <div className="text-right text-gray-500 text-sm">
                                     by {eachComment.user.username} {eachComment.createdAt.split("T")[0]}
                                 </div>
                             </div>

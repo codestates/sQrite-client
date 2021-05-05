@@ -69,7 +69,7 @@ class Mypage extends React.Component {
         return (
             <div className="px-8 w-max mx-auto mb-10 my-10">
                 <div className="mylists flex justify-between items-start">
-                    <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2">
+                    <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2 max-w-xs">
                         <div className="text-center m-2 text-xl text-gray-600 font-bold">My Information</div>
                         <div className="border-gray-300 py-1 px-3 border-b">E-mail : {email}</div>
                         <div className="border-gray-300 py-1 px-3 border-b">Name : {username}</div>
@@ -77,13 +77,13 @@ class Mypage extends React.Component {
                         <div className="border-gray-300 py-1 px-3 border-b">Questions : {postData.length}</div>
                         <div className="border-gray-300 py-1 px-3 border-b">Answers : {commentData.length}</div>
                     </ul>
-                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2 w-96">
                         <div className="text-center m-2 text-xl pb-4 text-sqrite-green font-bold">
                             My Questions
                         </div>
                         {postData.map(eachPost => <Mypagepreview key={eachPost.id} myData={eachPost} />)}
                     </ul>
-                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-yellow rounded-3xl pt-1 pl-2 pr-2">
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-yellow rounded-3xl pt-1 pl-2 pr-2 w-96">
                         <div className="text-center m-2 text-xl pb-4 text-sqrite-yellow font-bold">
                             My Answers
                         </div>
