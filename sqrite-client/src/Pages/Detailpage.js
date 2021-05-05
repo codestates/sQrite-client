@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import sqriteLogo from "../sqrite-logo.png"
 import autosize from 'autosize'
 import fakeData from "../Components/test/fakeData"
+import answer from "../answer.png"
+import questionMark from "../questionMark.png"
 
 class Detailpage extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class Detailpage extends React.Component {
         this.state = {
             currentPost: null,
             currentComment: null,
+            updatePostTitleInput: "",
             updatePostInput: "",
             commentInput: ""
         };
@@ -25,17 +27,13 @@ class Detailpage extends React.Component {
         await this.postUserVerify(this.btnOnDisplay);
         const detailTextarea = document.getElementById("detail-textarea");
         const postUpdateTextarea = document.getElementById("post-update-textarea");
+        const postUpdateTitleInput = document.getElementById("post-update-title-input");
         detailTextarea.focus();
         postUpdateTextarea.focus();
+        postUpdateTitleInput.focus();
         autosize(detailTextarea);
         autosize(postUpdateTextarea);
-        this.loadDetailPage();
-    }
-
-    async loadDetailPage() {
-        await this.getDetailPage(this.props.match.params.postId);
-        await this.postUserVerify(this.btnOnDisplay);
-
+        autosize(postUpdateTitleInput);
     }
 
     async getDetailPage(postId) {
@@ -64,13 +62,6 @@ class Detailpage extends React.Component {
         }
     }
 
-    // 게시물 내용을 수정을 할 수 있는 상태가 되도록 활성화 시켜준다.
-    updateActivate() {
-        this.setState({
-            isUpdating: true
-        })
-    }
-
     handleCommentInput(e) {
         this.setState({ commentInput: e.target.value });
     }
@@ -91,6 +82,11 @@ class Detailpage extends React.Component {
 
     handleUpdateInput = (e) => {
         this.setState({ updatePostInput: e.target.value });
+    }
+
+    handleUpdateTitleInput = (e) => {
+        this.setState({ updatePostTitleInput: e.target.value });
+        console.log(this.state.updatePostTitleInput)
     }
 
     postUserVerify(callback) {
@@ -148,23 +144,39 @@ class Detailpage extends React.Component {
 
     updateInputOnDisplay() {
         const updateInput = document.getElementsByClassName("update-input-display")[0];
+        const postUpdateTitle = document.getElementById("post-update-title");
+        const postUpdateTitleInput = document.getElementById("post-update-title-input");
         const postUpdateTextarea = document.getElementById("post-update-textarea");
+        const postUpdateContent = document.getElementById("post-update-content");
         if (updateInput.style.display === "none") {
             postUpdateTextarea.defaultValue = this.state.currentPost.content;
+            postUpdateTitleInput.defaultValue = this.state.currentPost.title;
+            postUpdateTitle.style.display = "none";
+            postUpdateContent.style.display = "none";
+            postUpdateTitleInput.style.display = "block";
             updateInput.style.display = "block";
         } else {
-            updateInput.style.display = "none"
+            postUpdateContent.style.display = "block";
+            postUpdateTitle.style.display = "block";
+            postUpdateTitleInput.style.display = "none";
+            updateInput.style.display = "none";
         };
     }
 
     updatePost() {
         axios.put("http://localhost:4000/post/content", {
             post_id: this.props.match.params.postId,
-            title: this.state.currentPost.title,
+            title: this.state.updatePostTitleInput,
             content: this.state.updatePostInput
         })
-            .then(res => console.log(res))
-            .then(window.location.reload())
+            .then(res => {
+                if (res.status = 200) {
+                    alert("수정되었습니다.")
+                    window.location.reload();
+                } else {
+                    alert("오류가 발생하였습니다.")
+                }
+            })
             .catch(err => console.log(err))
     }
 
@@ -175,72 +187,86 @@ class Detailpage extends React.Component {
                 <div>loading...</div>
             )
         }
-        // currentPost.user.username
-        // currentComment[0].post.user.username
         return (
-            <div id="detailpage-container">
-                <div>
-                    <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
-                </div>
-                <div className="detail-content-box-flex">
-                    <div className="detail-q-title-box">
-                        <h1 className="detail-q-title">{currentPost.title}</h1>
-                        <span style={{ display: "none" }} className="post-btn-display">
-                            <button onClick={() => this.updateInputOnDisplay()}>MODIFY</button>
-                            <button onClick={() => this.deletePost()}>DELETE</button>
-                        </span>
-                        <div className="detail-title-detail">
-                            <span>Question from {currentPost.user.username}</span><br></br>
-                            <span>{currentPost.createdAt.split("T")[0]}</span>
+            <div className="max-w-2xl mx-auto mb-10">
+                <div className="border-sqrite-green border-2 rounded-xl mb-5">
+                    <div className="bg-sqrite-green flex p-3 pt-1 rounded-lg rounded-b-none relative overflow-hidden">
+                        <div className="m-auto flex-shrink-0">
+                            <img src={questionMark} className="h-12" />
+                        </div>
+                        <div className="flex-grow">
+                            <div style={{ display: "none" }} className="post-btn-display text-right">
+                                <button className="m-1 bg-sqrite-yellow text-white font-bold px-2 rounded-lg text-sm hover:bg-yellow-600"
+                                    onClick={() => this.updateInputOnDisplay()}>FIX</button>
+                                <button className="m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
+                                    onClick={() => this.deletePost()}>DEL</button>
+                            </div>
+                            <h1 id="post-update-title" className="text-white mx-3 text-xl py-2">{currentPost.title}</h1>
+                            <textarea
+                                style={{ display: "none" }}
+                                id="post-update-title-input"
+                                onChange={(e) => this.handleUpdateTitleInput(e)}
+                                className="border border-white text-white bg-sqrite-green p-3 rounded-xl mb-3 ml-3 outline-none w-3/5"></textarea>
+                            <div className="text-white text-sm text-right">
+                                by {currentPost.createdAt.split("T")[0]} {currentPost.user.username}
+                            </div>
                         </div>
                     </div>
-                    <div className="detail-padding">
-                        <div className="detail-content">
+                    <div className="p-4 text-base">
+                        <div id="post-update-content" className="detail-content">
                             {currentPost.content}
                         </div>
-                        <div style={{ display: "none" }} className="detail-editing update-input-display">
+                        <div style={{ display: "none" }} className="detail-editing update-input-display overflow-hidden">
                             <textarea
                                 id="post-update-textarea"
+                                className="border border-gray-500 w-full p-3 rounded-xl mb-3 outline-none"
                                 type='text'
                                 onChange={(e) => this.handleUpdateInput(e)}
                             ></textarea>
-                            <button onClick={() => this.updatePost()}>
+                            <button
+                                className="float-right border-sqrite-yellow border-2 rounded-xl p-1 text-sqrite-yellow font-bold hover:bg-sqrite-yellow hover:text-white"
+                                onClick={() => this.updatePost()}>
                                 UPDATE
                             </button>
                         </div>
                     </div>
-                    <div >
-                        {currentComment.map(eachComment =>
-                            <div key={eachComment.id}>
-                                <div className="detail-a-title-box">
-                                    <h2 className="detail-a-title">Re : {currentPost.title}</h2>
-                                </div>
-                                <div className="detail-title-detail">
-                                    <span>Answer from {eachComment.user.username}</span><br></br>
-                                    <span>{eachComment.createdAt.split("T")[0]}</span>
-                                </div>
+                </div>
+
+                <div >
+                    {currentComment.map(eachComment =>
+                        <div key={eachComment.id} className="border-sqrite-yellow border-2 rounded-xl flex relative mb-5 p-3 pt-1">
+                            <img src={answer} className="h-12 m-auto" />
+                            <div className="flex-grow">
                                 {
                                     eachComment.user_id === this.props.userinfo.id
                                         ?
-                                        <button onClick={() => this.deleteComment(eachComment.id)}>DELETE</button>
+                                        <div className="text-right">
+                                            <button className=" m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
+                                                onClick={() => this.deleteComment(eachComment.id)}>DEL</button>
+                                        </div>
                                         :
                                         null
                                 }
-                                <div className="detail-content">
+                                <div className="py-2 mx-3">
                                     {eachComment.content}
                                 </div>
+                                <div className="text-right text-gray-500 text-sm">
+                                    by {eachComment.user.username} {eachComment.createdAt.split("T")[0]}
+                                </div>
                             </div>
-                        )}
-                    </div>
-                    <div className="relative detail-padding">
-                        <textarea id="detail-textarea" placeholder="질문에 대한 의견을 공유해주세요!" onChange={(e) => this.handleCommentInput(e)}></textarea>
-                        <button id="answer-btn" onClick={() => this.createComment()}>Submit</button>
-                    </div>
-                    <div>
-                        <button onClick={() => this.props.history.push("/")}>
-                            목록
-                    </button>
-                    </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="relative border-gray-400 border-2 p-4 rounded-xl overflow-hidden">
+                    <textarea
+                        id="detail-textarea"
+                        className="w-full outline-none"
+                        placeholder="질문에 대한 의견을 공유해주세요!"
+                        onChange={(e) => this.handleCommentInput(e)}>
+                    </textarea>
+                    <button className="float-right rounded-xl p-1 text-sqrite-green font-bold m-1 transition hover:bg-sqrite-yellow hover:text-white"
+                        onClick={() => this.createComment()}>Submit</button>
                 </div>
             </div>
         )
