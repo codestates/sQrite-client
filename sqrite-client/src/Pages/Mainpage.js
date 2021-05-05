@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import sqriteLogo from "../sqrite-logo.png"
 import Postpreview from "../Components/Postpreview"
 import fakeData from "../Components/test/fakeData" // for test
 
@@ -35,7 +34,6 @@ class MainPage extends React.Component {
     };
 
     render() {
-        const { handleLogout, isLogin } = this.props;
         const { allPost, searchWord } = this.state;
         if (this.state.allPost === null) {
             return <div>loading...</div>
@@ -44,22 +42,7 @@ class MainPage extends React.Component {
             return eachPost.title.toLowerCase().includes(searchWord);
         })
         return (
-            <div className="px-8 py-12 max-w-2xl mx-auto">
-                <div id="navbar">
-                    <div className="logo-box">
-                        <Link to="/"><img className="w-1/12" src={sqriteLogo} /></Link>
-                    </div >
-                    <div className="login-box">
-                        {isLogin === true
-                            ? <div>
-                                <Link to="/post"><button>WRITE</button></Link>
-                                <button className="logout-btn" onClick={() => handleLogout()}>LOGOUT</button>
-                                <Link to="/myinfo" className="mypage">Mypage</Link>
-                            </div>
-                            : <button className="login-btn" onClick={() => this.props.history.push("/sign")}>Login</button>
-                        }
-                    </div>
-                </div>
+            <div className="px-8 max-w-2xl mx-auto mb-10">
                 <div className="my-6 mx-12 p-2 border-4 rounded-md border-sqrite-green">
                     <input
                         type="search"

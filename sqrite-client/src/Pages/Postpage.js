@@ -13,6 +13,14 @@ class Postpage extends React.Component {
         };
     };
 
+    componentWillMount() {
+        this.props.hideNav();
+    }
+
+    componentWillUnmount() {
+        this.props.hideNav();
+    }
+
     componentDidMount() {
         const postTitleTextarea = document.getElementById("post-title-textarea");
         const postContentTextarea = document.getElementById("post-content-textarea");

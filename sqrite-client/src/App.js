@@ -8,18 +8,21 @@ import Mainpage from './Pages/Mainpage';
 import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
 import Postpage from './Pages/Postpage';
+import Nav from './Components/Nav'
 import fakeData from "./Components/test/fakeData" // for test
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isLogin: localStorage.getItem("loggedInfo"),
+      isNavHidden: false,
       isLogin: false,
       userinfo: { id: "Guest" },
       accessToken: null
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    this.hideNav = this.hideNav.bind(this);
   }
 
   handleLoginSuccess(accessToken, userinfo) {
@@ -66,21 +69,28 @@ class App extends React.Component {
         window.location.reload();
       }).catch(err => console.log(err))
   }
-  // state 항상 변해야하는데 새로고침하면 상태가 다시 처음으로 돌아간다. 
+
+  hideNav() {
+    this.setState({ isNavHidden: !this.state.isNavHidden })
+  }
   render() {
     const { isLogin, userinfo } = this.state;
     return (
       <Router>
+        {this.state.isNavHidden ?
+          null : <Nav isLogin={isLogin} handleLogout={this.handleLogout} />}
         <Switch>
           <Route path="/" exact>
             <Mainpage
               isLogin={isLogin}
-              userinfo={userinfo}
-              handleLogout={this.handleLogout}
             />
           </Route>
           <Route path="/sign">
-            <Signpage isLogin={isLogin} handleLoginSuccess={this.handleLoginSuccess} />
+            <Signpage
+              hideNav={this.hideNav}
+              isLogin={isLogin}
+              handleLoginSuccess={this.handleLoginSuccess}
+            />
           </Route>
           <Route path="/myinfo">
             <Mypage userinfo={userinfo} />
@@ -89,7 +99,10 @@ class App extends React.Component {
             <Detailpage userinfo={userinfo} />
           </Route>
           <Route path="/post">
-            <Postpage userinfo={userinfo} />
+            <Postpage
+              userinfo={userinfo}
+              hideNav={this.hideNav}
+            />
           </Route>
         </Switch>
       </Router>
