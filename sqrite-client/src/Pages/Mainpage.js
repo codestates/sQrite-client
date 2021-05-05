@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import sqriteLogo from "../sqrite-logo.png"
@@ -13,7 +13,7 @@ class MainPage extends React.Component {
         super(props);
         this.state = {
             allPost: null,
-            searchWord : ""
+            searchWord: ""
         };
         this.searchWord = this.searchWord.bind(this);
     };
@@ -29,25 +29,25 @@ class MainPage extends React.Component {
     }
 
     searchWord = (e) => {
-        this.setState({ 
-            searchWord : e.target.value 
+        this.setState({
+            searchWord: e.target.value
         });
     };
 
     render() {
         const { handleLogout, isLogin } = this.props;
         const { allPost, searchWord } = this.state;
-        if(this.state.allPost === null){
+        if (this.state.allPost === null) {
             return <div>loading...</div>
         }
-        const filteredContent = allPost.filter(eachPost=> {
+        const filteredContent = allPost.filter(eachPost => {
             return eachPost.title.toLowerCase().includes(searchWord);
         })
         return (
-            <div id="mainpage-container">
+            <div className="px-8 py-12 max-w-2xl mx-auto">
                 <div id="navbar">
                     <div className="logo-box">
-                        <Link to="/"><img className="logo-medium" src={sqriteLogo} /></Link>
+                        <Link to="/"><img className="w-1/12" src={sqriteLogo} /></Link>
                     </div >
                     <div className="login-box">
                         {isLogin === true
@@ -60,11 +60,14 @@ class MainPage extends React.Component {
                         }
                     </div>
                 </div>
-                <div className="content-box">
-                    <div className="search-box">
-                        <input type="search" placeholder="검색어를 입력해주세요" id="main-input" onChange={this.searchWord}></input>
-                    </div>
-                    <ul className="question-list-box">
+                <div className="my-6 mx-12 p-2 border-4 rounded-md border-sqrite-green">
+                    <input
+                        type="search"
+                        placeholder="검색어를 입력해주세요"
+                        onChange={this.searchWord}></input>
+                </div>
+                <div>
+                    <ul className="border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
                         {filteredContent.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)}
                     </ul>
                 </div>
