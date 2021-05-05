@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-// import './App.css';
 import './index.css'
 import Detailpage from './Pages/Detailpage';
 import Mainpage from './Pages/Mainpage';

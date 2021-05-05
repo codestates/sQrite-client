@@ -67,25 +67,25 @@ class Mypage extends React.Component {
             )
         }
         return (
-            <div className="px-8 max-w-4xl mx-auto mb-10">
+            <div className="px-8 w-max mx-auto mb-10 my-10">
                 <div className="mylists flex justify-between">
-                    <ul className="grid border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
-                        <div>My Information</div>
-                        <div className="border-sqrite-green py-1 px-3 border-b">이메일 : {email}</div>
-                        <div className="border-sqrite-green py-1 px-3 border-b">유저이름 : {username}</div>
-                        <div className="border-sqrite-green py-1 px-3 border-b">가입날짜 : {createdAt.split("T")[0]}</div>
-                        <div className="border-sqrite-green py-1 px-3 border-b">질문 개수 : {postData.length}</div>
-                        <div className="border-sqrite-green py-1 px-3 border-b">답변 개수 : {commentData.length}</div>
+                    <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2">
+                        <div className="text-center m-2 text-xl text-gray-600 font-bold">My Information</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">이메일 : {email}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">유저이름 : {username}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">가입날짜 : {createdAt.split("T")[0]}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">질문 개수 : {postData.length}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">답변 개수 : {commentData.length}</div>
                     </ul>
-                    <ul className="grid-cols-5 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
-                        <div className="mylists-title">
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
+                        <div className="text-center m-2 text-xl pb-4 text-sqrite-green font-bold">
                             My Questions
                         </div>
                         {postData.map(eachPost => <Mypagepreview key={eachPost.id} myData={eachPost} />)}
                     </ul>
-                    <ul className="grid-cols-5 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
-                        <div className="mylists-title">
-                            <span>My Answers</span>
+                    <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-yellow rounded-3xl pt-1 pl-2 pr-2">
+                        <div className="text-center m-2 text-xl pb-4 text-sqrite-yellow font-bold">
+                            My Answers
                         </div>
                         {commentData.map(eachComment => <Mypagepreview key={eachComment.id} myData={eachComment} />)}
                     </ul>
