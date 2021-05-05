@@ -50,13 +50,11 @@ class MainPage extends React.Component {
                         className="w-full outline-none"
                         onChange={this.searchWord} />
                 </div>
-                <div>
-                    <ul className="border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
-                        {filteredContent.length !== 0 ?
-                            filteredContent.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)
-                            : <div className="border-sqrite-green py-1 px-3 border-b text-gray-600">검색 결과가 없습니다.</div>}
-                    </ul>
-                </div>
+                <ul className="border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
+                    {filteredContent.length !== 0 ?
+                        filteredContent.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)
+                        : <div className="border-sqrite-green py-1 px-3 border-b text-gray-600">검색 결과가 없습니다.</div>}
+                </ul>
             </div>
         )
     }
