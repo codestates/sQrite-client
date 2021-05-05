@@ -68,7 +68,7 @@ class Mypage extends React.Component {
         }
         return (
             <div className="px-8 w-max mx-auto mb-10 my-10">
-                <div className="mylists flex justify-between">
+                <div className="mylists flex justify-between items-start">
                     <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2">
                         <div className="text-center m-2 text-xl text-gray-600 font-bold">My Information</div>
                         <div className="border-gray-300 py-1 px-3 border-b">E-mail : {email}</div>
