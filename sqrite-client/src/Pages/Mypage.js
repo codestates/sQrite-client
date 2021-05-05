@@ -71,11 +71,11 @@ class Mypage extends React.Component {
                 <div className="mylists flex justify-between">
                     <ul className="grid mx-4 border-t border-l border-r-4 border-b-8 border-gray-300 rounded-3xl pt-1 pl-2 pr-2">
                         <div className="text-center m-2 text-xl text-gray-600 font-bold">My Information</div>
-                        <div className="border-gray-300 py-1 px-3 border-b">이메일 : {email}</div>
-                        <div className="border-gray-300 py-1 px-3 border-b">유저이름 : {username}</div>
-                        <div className="border-gray-300 py-1 px-3 border-b">가입날짜 : {createdAt.split("T")[0]}</div>
-                        <div className="border-gray-300 py-1 px-3 border-b">질문 개수 : {postData.length}</div>
-                        <div className="border-gray-300 py-1 px-3 border-b">답변 개수 : {commentData.length}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">E-mail : {email}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Name : {username}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Sign Up : {createdAt.split("T")[0]}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Questions : {postData.length}</div>
+                        <div className="border-gray-300 py-1 px-3 border-b">Answers : {commentData.length}</div>
                     </ul>
                     <ul className="grid-cols-5 mx-4 border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
                         <div className="text-center m-2 text-xl pb-4 text-sqrite-green font-bold">
