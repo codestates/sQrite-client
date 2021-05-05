@@ -16,13 +16,12 @@ function Mypagepreview(props) {
         id = props.myData.id;
     }
     return (
-        <div className="mylists-container">
-            <div className="mylists-content">
-                {<Link to={`/detail/${id}`} className="mylists-content-title" >{title}</Link>}
-                <span className="mylists-content-tag">태그1</span>
-                <span className="mylists-content-tag">태그2</span>
-                <span className="mylists-content-tag">태그3</span>
-                <div className="mylists-content-detail">{createdAt.split("T")[0]}</div>
+        <div className="border-sqrite-green py-1 px-3 border-b hover:text-sqrite-yellow">
+            <div className="qp-flex-mid">
+                {<Link to={`/detail/${id}`} className="">{title}</Link>}
+                <div className="text-sm text-right text-gray-500">
+                    <span>{createdAt.split("T")[0]}</span>
+                </div>
             </div>
         </div>
     )
