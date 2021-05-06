@@ -52,20 +52,20 @@ class Postpage extends React.Component {
     render() {
         return (
             <div class="space-y-6 mt-24">
-                <div id="logo-area" class="flex justify-center align-middle">
-                    <Link to="/"><img className="logo-medium" src={sqriteLogo} class="max-h-56" /></Link>
+                <div id="logo-area" class="flex justify-center align-middle mb-14">
+                    <Link to="/"><img src={sqriteLogo} class="max-h-56" /></Link>
                 </div>
                 <div className="postpage" class="max-w-2xl mx-auto">
-                    <div id="postpage-post" class="shadow-xl rounded-md" >
-                        <div class="bg-sqrite-green p-3.5 mt-14">
+                    <div class="shadow-xl rounded-md" >
+                        <div class="bg-sqrite-green p-3 mt-14 pt-4 px-4 rounded-lg rounded-b-none">
                             <textarea
                                 id="post-title-textarea"
                                 placeholder=" 제목을 입력해주세요"
                                 onChange={this.handleInputValue("title")}
-                                class="w-full p-2 outline-none"
+                                class="w-full p-2 outline-none m-auto"
                             />
                         </div>
-                        <div class="bg-white p-3.5">
+                        <div class="bg-white p-3.5 pt-5 rounded-lg rounded-t-none">
                             <textarea
                                 id="post-content-textarea"
                                 placeholder="내용을 입력해주세요"
