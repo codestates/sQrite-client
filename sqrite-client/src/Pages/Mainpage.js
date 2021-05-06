@@ -36,7 +36,7 @@ class MainPage extends React.Component {
     render() {
         const { allPost, searchWord } = this.state;
         if (this.state.allPost === null) {
-            return <div>loading...</div>
+            return <div></div>
         }
         const filteredContent = allPost.filter(eachPost => {
             return eachPost.title.toLowerCase().includes(searchWord);

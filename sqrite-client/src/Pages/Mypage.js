@@ -63,7 +63,7 @@ class Mypage extends React.Component {
         const { email, username, createdAt } = this.props.userinfo
         if (!postData || !commentData) {
             return (
-                <div>Loading...</div>
+                <div></div>
             )
         }
         return (

@@ -184,7 +184,7 @@ class Detailpage extends React.Component {
         const { currentPost, currentComment } = this.state;
         if (!currentComment || !currentPost) {
             return (
-                <div>loading...</div>
+                <div></div>
             )
         }
         return (
