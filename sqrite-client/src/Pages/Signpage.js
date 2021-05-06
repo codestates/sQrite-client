@@ -3,6 +3,10 @@ import { Link, withRouter } from "react-router-dom";
 import sqriteLogo from "../sqrite-logo.png";
 import axios from "axios";
 import sqriteRevertedLogo from "../sqrite_reverted.png";
+import Signupoff from '../Components/Signupoff';
+import Signupon from '../Components/Signupon';
+import Loginon from '../Components/Loginon';
+import Loginoff from '../Components/Loginoff';
 
 class Signpage extends React.Component {
     constructor(props) {
@@ -125,106 +129,16 @@ class Signpage extends React.Component {
     render() {
         return (
             <div id="signpage-container" class="flex flex-row justify-center align-middle text-center">
-                <div id="signup" class="w-1/2 bg-sqrite-green flex flex-col justify-center align-middle items-center text-center shadow-inner">
-                    <div>
-                        <img className="logo-medium" src={sqriteRevertedLogo} class="max-w-xs justify-center mb-8" />
-                    </div>
-                    <div>
-                        {this.state.isDefault === false
-                            ?
-                            <div className="signup-active" class="text-center top-1/3 left-1/3">
-                                <form onSubmit={(e) => e.preventDefault()}>
-                                    <div>
-                                        <div class="text-white text-left">EMAIL </div>
-                                        <input
-                                            type="email"
-                                            onChange={this.handleInputValue("email")}
-                                            class="rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <div>
-                                        <div class="text-white text-left mt-2">USERNAME </div>
-                                        <input
-                                            type="text"
-                                            onChange={this.handleInputValue("username")}
-                                            class="rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <div>
-                                        <div class="text-white text-left mt-2">PASSWORD </div>
-                                        <input
-                                            type="password"
-                                            onChange={this.handleInputValue("password")}
-                                            class="rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <div>
-                                        <div class="text-white text-left mt-2">CHECK PASSWORD </div>
-                                        <input
-                                            type="password"
-                                            onChange={this.handleInputValue("checkPassword")}
-                                            class="rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <button
-                                        className="btn-signup"
-                                        type='submit'
-                                        onClick={() => this.handleSignUp()}
-                                        class="text-center top-1/2 left-1/3 focus:outline-none bg-sqrite-yellow text-white font-bold p-3 rounded-md hover:bg-yellow-500 hover:text-gray-300 mt-7"
-                                    >
-                                        SIGNUP
-                                </button>
-                                </form>
-                            </div>
-                            :
-                            <button onClick={this.handleDefault} class="text-center top-1/2 left-1/3 focus:outline-none bg-sqrite-yellow text-white font-bold p-3 rounded-md hover:bg-yellow-500 hover:text-gray-300" >
-                                SIGNUP
-                </button>
-                        }
-                    </div>
-                </div>
-                <div id="login" class="w-1/2 flex flex-col justify-center ㄴtext-center shadow-inner items-center">
-                    <div class="max-w-xs flex justify-center">
-                        <img className="logo-medium" src={sqriteLogo} class="max-w-xs flex justify-center top-1/3 left-1/3 mb-8" />
-                    </div>
-                    <div>
-                        {this.state.isDefault === true
-                            ?
-                            <div className="login-active" class="text-center top-1/3 left-1/3">
-                                <form onSubmit={(e) => e.preventDefault()}>
-                                    <div >
-                                        <div class="text-left text-gray-600">EMAIL </div>
-                                        <input
-                                            type="email"
-                                            onChange={this.handleInputValue("email")}
-                                            class="border-solid border-2 border-light-gray-500 rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <div>
-                                        <div class="text-left mt-2 text-gray-600">PASSWORD </div>
-                                        <input
-                                            type="password"
-                                            onChange={this.handleInputValue("password")}
-                                            class="border-solid border-2 border-light-gray-500 rounded-md outline-none p-1"
-                                        ></input>
-                                    </div>
-                                    <button
-                                        className="btn-login"
-                                        type='submit'
-                                        onClick={() => this.handleLogin()}
-                                        class="bg-sqrite-green text-white p-3 rounded-md mt-7 hover:bg-green-600 hover:text-gray-400"
-                                    >
-                                        LOGIN
-                            </button>
-                                </form>
-                            </div>
-                            :
-                            <button onClick={() => this.handleDefault()} class="bg-sqrite-green text-white p-3 rounded-md mt-7 hover:bg-green-600 hover:text-gray-400">
-                                LOGIN
-                </button>
-                        }
-                    </div>
-                </div>
+                {this.state.isDefault === true ?
+                    <>
+                        <Signupoff handleDefault={this.handleDefault} />
+                        <Loginon handleInputValue={this.handleInputValue} handleLogin={this.handleLogin} />
+                    </> :
+                    <>
+                        <Signupon handleInputValue={this.handleInputValue} handleSignUp={this.handleSignUp} />
+                        <Loginoff handleDefault={this.handleDefault} />
+                    </>
+                }
             </div>
         )
     }

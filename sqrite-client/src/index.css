@@ -4,7 +4,6 @@
 
 #signup {
   height: 100vh;
-  background-color: rgb(64, 144, 70);
 }
 
 .signpage-flex-box {
@@ -15,13 +14,6 @@
 .signup-active {
   top: 40%;
   left: 40;
-}
-
-/post page/ / .logo-medium {
-  left: 500px;
-}
-*/ #postpage-post {
-  left: 450px;
 }
 
 #post-title-textarea {
