@@ -208,7 +208,7 @@ class Detailpage extends React.Component {
                                 onChange={(e) => this.handleUpdateTitleInput(e)}
                                 className="border border-white text-white bg-sqrite-green p-3 rounded-xl mb-3 ml-3 outline-none w-3/5"></textarea>
                             <div className="text-white text-sm text-right">
-                                by {currentPost.createdAt.split("T")[0]} {currentPost.user.username}
+                                {currentPost.createdAt.split("T")[0]} by {currentPost.user.username}
                             </div>
                         </div>
                     </div>
@@ -251,7 +251,7 @@ class Detailpage extends React.Component {
                                     {eachComment.content}
                                 </div>
                                 <div className="text-right text-gray-500 text-sm">
-                                    by {eachComment.user.username} {eachComment.createdAt.split("T")[0]}
+                                    {eachComment.createdAt.split("T")[0]} by {eachComment.user.username}
                                 </div>
                             </div>
                         </div>
