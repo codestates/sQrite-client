@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#signup {
+  height: 100vh;
+  background-color: rgb(64, 144, 70);
+}
+
+.signpage-flex-box {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.signup-active {
+  top: 40%;
+  left: 40;
+}
+
+/post page/ / .logo-medium {
+  left: 500px;
+}
+*/ #postpage-post {
+  left: 450px;
+}
+
+#post-title-textarea {
+  height: 30px;
+  padding-left: 2px;
+}
+
+#post-content-textarea {
+  width: 700px;
+  height: 400px;
+}
+
+#submit-btn-area {
+  margin-top: 30px;
+  text-align: center;
+}

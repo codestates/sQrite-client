@@ -51,24 +51,35 @@ class Postpage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    제목
-                    <textarea
-                        id="post-title-textarea"
-                        placeholder="제목을 입력해주세요"
-                        onChange={this.handleInputValue("title")}
-                    />
+            <div class="space-y-6 mt-24">
+                <div id="logo-area" class="flex justify-center align-middle">
+                    <Link to="/"><img className="logo-medium" src={sqriteLogo} class="max-h-56" /></Link>
                 </div>
-                <div>
-                    내용
-                    <textarea
-                        id="post-content-textarea"
-                        placeholder="내용을 입력해주세요"
-                        onChange={this.handleInputValue("content")}
-                    />
+                <div className="postpage" class="max-w-2xl mx-auto">
+                    <div id="postpage-post" class="shadow-xl rounded-md" >
+                        <div class="bg-sqrite-green p-3.5 mt-14">
+                            <textarea
+                                id="post-title-textarea"
+                                placeholder=" 제목을 입력해주세요"
+                                onChange={this.handleInputValue("title")}
+                                class="w-full p-2 outline-none"
+                            />
+                        </div>
+                        <div class="bg-white p-3.5">
+                            <textarea
+                                id="post-content-textarea"
+                                placeholder="내용을 입력해주세요"
+                                onChange={this.handleInputValue("content")}
+                                class="border-solid border border-gray pad1 max-w-full p-2 h-80 outline-none"
+                            />
+                        </div>
+                    </div>
+                    <div id="submit-btn-area" class="top-auto flex justify-center align-middle">
+                        <button id="post-submit-btn" onClick={() => this.handleSubmit()} class="bottom-12 bg-sqrite-green text-white p-3 animate-pulse rounded-md mt-9">
+                            Submit
+                        </button>
+                    </div>
                 </div>
-                <button id="post-submit-btn" onClick={() => this.handleSubmit()}>Submit</button>
             </div>
         )
     }
