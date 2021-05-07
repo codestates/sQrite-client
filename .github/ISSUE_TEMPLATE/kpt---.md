@@ -7,17 +7,27 @@ assignees: ''
 
 ---
 
-** Keep (유지할 항목)
-*
-*
-*
+## Keep (유지할 항목)
 
-**Promblem(문제라고 생각하는 항목)
-*
-*
-*
 
-**Try(Action Items)
-[]
-[]
-[]
+- 항목 1
+
+- 항목 2
+
+- 항목 3
+
+## Promblem(문제라고 생각하는 항목)
+
+- 항목 1
+
+- 항목 2
+
+- 항목 3
+
+## Try(Action Items)
+
+- [ ] Todo
+
+- [ ] Todo
+
+- [ ] Todo
