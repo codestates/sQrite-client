@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import Postpreview from "../Components/Postpreview"
 import findIcon from '../find.png'
@@ -22,8 +22,7 @@ class MainPage extends React.Component {
     }
 
     async getAllPost() {
-        const getAllPost = await axios.get("http://localhost:4000/post/content");
-        console.log(getAllPost.data);
+        const getAllPost = await axios.get(`${process.env.REACT_APP_SERVER}/post/content`);
         this.setState({ allPost: getAllPost.data });
     }
 
@@ -52,7 +51,6 @@ class MainPage extends React.Component {
                         placeholder="검색어를 입력해주세요"
                         className="w-full outline-none p-2 rounded-md"
                         onChange={this.searchWord} />
-
                 </div>
                 <ul className="border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
                     {filteredContent.length !== 0 ?

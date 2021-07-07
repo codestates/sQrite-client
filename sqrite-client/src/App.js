@@ -8,7 +8,6 @@ import Mypage from './Pages/Mypage';
 import Signpage from './Pages/Signpage';
 import Postpage from './Pages/Postpage';
 import Nav from './Components/Nav'
-import fakeData from "./Components/test/fakeData" // for test
 
 class App extends React.Component {
   constructor(props) {
@@ -43,9 +42,6 @@ class App extends React.Component {
         userinfo: JSON.parse(localStorage.getItem("userinfo")),
         accessToken: localStorage.getItem("accessToken")
       })
-      console.log(this.state)
-    } else { // 로그인이 안 된 상태 (null)
-      console.log("비로그인 상태")
     }
   }
 
@@ -56,7 +52,7 @@ class App extends React.Component {
   }
 
   async handleLogout() {
-    await axios.post("http://localhost:4000/user/logout", {
+    await axios.post(`${process.env.REACT_APP_SERVER}/user/logout`, {
       email: this.state.userinfo.email
     }, {
       withCrendentials: true
