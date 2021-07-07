@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import sqriteLogo from "../sqrite-logo.png"
+import { withRouter } from "react-router-dom";
 import sqriteRevertedLogo from "../sqrite_reverted.png";
 
 function Signupoff(props) {

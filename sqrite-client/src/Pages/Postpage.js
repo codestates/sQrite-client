@@ -36,7 +36,7 @@ class Postpage extends React.Component {
 
     // submit 버튼을 누르면 생성된 게시글로 이동
     handleSubmit() {
-        axios.post("http://localhost:4000/post/content", {
+        axios.post(`${process.env.REACT_APP_SERVER}/post/content`, {
             email: this.props.userinfo.email,
             title: this.state.title,
             content: this.state.content

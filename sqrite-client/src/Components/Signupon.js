@@ -1,7 +1,6 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import sqriteLogo from "../sqrite-logo.png"
-import sqriteRevertedLogo from "../sqrite_reverted.png";
 
 function Signupon(props) {
     return (
