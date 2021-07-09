@@ -11,7 +11,7 @@ class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allPost: null,
+            allPost: [],
             searchWord: ""
         };
         this.searchWord = this.searchWord.bind(this);
@@ -34,7 +34,8 @@ class MainPage extends React.Component {
 
     render() {
         const { allPost, searchWord } = this.state;
-        if (this.state.allPost === null) {
+        console.log(this.state.allPost)
+        if (this.state.allPost.length === 0) {
             return <div></div>
         }
         const filteredContent = allPost.filter(eachPost => {
@@ -53,7 +54,7 @@ class MainPage extends React.Component {
                         onChange={this.searchWord} />
                 </div>
                 <ul className="border-t border-l border-r-4 border-b-8 border-sqrite-green rounded-3xl pt-1 pl-2 pr-2">
-                    {filteredContent.length !== 0 ?
+                    {filteredContent.length ?
                         filteredContent.map(eachPost => <Postpreview key={eachPost.id} postData={eachPost} />)
                         : <div className="border-sqrite-green py-1 px-3 border-b text-gray-600">검색 결과가 없습니다.</div>}
                 </ul>
