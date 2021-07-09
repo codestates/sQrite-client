@@ -1,9 +1,6 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import sqriteLogo from "../sqrite-logo.png"
 import Mypagepreview from "../Components/Mypagepreview"
-import fakeData from "../Components/test/fakeData" // for test
 
 class Mypage extends React.Component {
     constructor(props) {
@@ -27,7 +24,7 @@ class Mypage extends React.Component {
 
     // userinfo의 Id와 일치하는 포스트, 댓글만을 가져와야 한다.
     async getUserCurrentPosts() {
-        const currentPosts = await axios.get("http://localhost:4000/post/content", {
+        const currentPosts = await axios.get(`${process.env.REACT_APP_SERVER}/post/content`, {
             params: {
                 user_id: this.props.userinfo.id
             }
@@ -39,12 +36,11 @@ class Mypage extends React.Component {
             this.setState({
                 postData: currentPosts.data
             })
-            console.log("postData :", this.state.postData)
         }
     }
 
     async getUserCurrentCommnents() {
-        const currentComments = await axios.get("http://localhost:4000/comment/comment", {
+        const currentComments = await axios.get(`${process.env.REACT_APP_SERVER}/comment/comment`, {
             params: {
                 user_id: this.props.userinfo.id //  user_id:1 => ?user_id=1
             }
@@ -56,7 +52,6 @@ class Mypage extends React.Component {
                 commentData: currentComments.data
             })
         }
-        console.log("commentData :", this.state.commentData)
     }
     render() {
         const { postData, commentData } = this.state;

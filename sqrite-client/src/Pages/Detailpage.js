@@ -1,8 +1,7 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import autosize from 'autosize'
-import fakeData from "../Components/test/fakeData"
 import answer from "../answer.png"
 import questionMark from "../questionMark.png"
 
@@ -37,9 +36,9 @@ class Detailpage extends React.Component {
     }
 
     async getDetailPage(postId) {
-        const getCurrentPost = await axios.get(`http://localhost:4000/post/content?post_id=${postId}`);
+        const getCurrentPost = await axios.get(`${process.env.REACT_APP_SERVER}/post/content?post_id=${postId}`);
         console.log(getCurrentPost.data[0])
-        const getCurrentComment = await axios.get(`http://localhost:4000/comment/comment?post_id=${postId}`);
+        const getCurrentComment = await axios.get(`${process.env.REACT_APP_SERVER}/comment/comment?post_id=${postId}`);
         console.log(getCurrentComment.data)
         this.setState({ currentPost: getCurrentPost.data[0], currentComment: getCurrentComment.data });
     }
@@ -49,7 +48,7 @@ class Detailpage extends React.Component {
         if (window.confirm("게시물을 삭제하시겠습니까?")) {
             // 게시물을 삭제하는 요청을 서버에 보낸다.
             // 그리고 게시물을 삭제했다면, 메인페이지로 이동하고 alert를 이용해 삭제가 완료되었음을 알린다.
-            axios.delete("http://localhost:4000/post/content", {
+            axios.delete(`${process.env.REACT_APP_SERVER}/post/content`, {
                 data: {
                     post_id: this.props.match.params.postId
                 }
@@ -67,7 +66,7 @@ class Detailpage extends React.Component {
     }
     // 답글을 가져오는 메소드
     getComment() {
-        axios.get("http://localhost:4000/comment/comment", {
+        axios.get(`${process.env.REACT_APP_SERVER}/comment/comment`, {
             params: {
                 user_id: this.props.userinfo.id,
                 post_id: this.props.match.params.postId
@@ -99,7 +98,7 @@ class Detailpage extends React.Component {
     }
 
     createComment() {
-        axios.post("http://localhost:4000/comment/comment", {
+        axios.post(`${process.env.REACT_APP_SERVER}/comment/comment`, {
             user_id: this.props.userinfo.id,
             post_id: this.props.match.params.postId,
             content: this.state.commentInput
@@ -122,7 +121,7 @@ class Detailpage extends React.Component {
     deleteComment(commentId) {
         // comment_id를 가지고 요청을 보내야하는데, comment_id는 각 댓글의 삭제 버튼을
         // 눌렀을 때, 그 댓글의 정보에서 id를 찾아 보내주면 된다.
-        axios.delete("http://localhost:4000/comment/comment", {
+        axios.delete(`${process.env.REACT_APP_SERVER}/comment/comment`, {
             data: { comment_id: commentId }
         }, {
             headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
@@ -164,7 +163,7 @@ class Detailpage extends React.Component {
     }
 
     updatePost() {
-        axios.put("http://localhost:4000/post/content", {
+        axios.put(`${process.env.REACT_APP_SERVER}/post/content`, {
             post_id: this.props.match.params.postId,
             title: this.state.updatePostTitleInput,
             content: this.state.updatePostInput

@@ -1,8 +1,6 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import sqriteLogo from "../sqrite-logo.png";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-import sqriteRevertedLogo from "../sqrite_reverted.png";
 import Signupoff from '../Components/Signupoff';
 import Signupon from '../Components/Signupon';
 import Loginon from '../Components/Loginon';
@@ -56,14 +54,12 @@ class Signpage extends React.Component {
             })
         } else {
             // login 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/user/login", {
+            axios.post(`${process.env.REACT_APP_SERVER}/user/login`, {
                 email,
                 password
             })
                 .then((res) => {
-                    // console.log(res)
                     if (res.status === 200) { // 만약 로그인이 정상적으로 이루어져서 서버에서 토큰을 받아왔다면 if(res.body.accessToken)
-                        console.log(res)
                         this.props.handleLoginSuccess(
                             res.data.data.accessToken,
                             res.data.userinfo
@@ -105,7 +101,7 @@ class Signpage extends React.Component {
             if (checkPassword !== password) alert("비밀번호가 일치하지 않습니다");
         } else {
             // signup 동작은 서버에 post 요청을 전송해주어야 함.
-            axios.post("http://localhost:4000/user/signup", {
+            axios.post(`${process.env.REACT_APP_SERVER}/user/signup`, {
                 email,
                 password,
                 username
