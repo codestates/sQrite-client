@@ -163,10 +163,11 @@ class Detailpage extends React.Component {
     }
 
     updatePost() {
+        const { updatePostTitleInput, updatePostInput } = this.state;
         axios.put(`${process.env.REACT_APP_SERVER}/post/content`, {
             post_id: this.props.match.params.postId,
-            title: this.state.updatePostTitleInput,
-            content: this.state.updatePostInput
+            title: updatePostTitleInput ? updatePostTitleInput : this.state.currentPost.title,
+            content: updatePostInput ? updatePostInput : this.state.currentPost.content
         })
             .then(res => {
                 if (res.status = 200) {
@@ -233,7 +234,7 @@ class Detailpage extends React.Component {
 
                 <div >
                     {currentComment.map(eachComment =>
-                        <div key={eachComment.id} className="border-sqrite-yellow border-2 rounded-xl flex relative mb-5 p-3 pt-1">
+                        <div key={eachComment.comment_id} className="border-sqrite-yellow border-2 rounded-xl flex relative mb-5 p-3 pt-1">
                             <img src={answer} className="h-12 m-auto" />
                             <div className="flex-grow">
                                 {
@@ -241,7 +242,7 @@ class Detailpage extends React.Component {
                                         ?
                                         <div className="text-right">
                                             <button className=" m-1 bg-sqrite-red text-white font-bold px-2 rounded-lg text-sm hover:bg-red-800"
-                                                onClick={() => this.deleteComment(eachComment.id)}>DEL</button>
+                                                onClick={() => this.deleteComment(eachComment.comment_id)}>DEL</button>
                                         </div>
                                         :
                                         null
@@ -250,7 +251,7 @@ class Detailpage extends React.Component {
                                     {eachComment.content}
                                 </div>
                                 <div className="text-right text-gray-500 text-sm">
-                                    {eachComment.createdAt.split("T")[0]} by {eachComment.user.username}
+                                    {eachComment.createdAt.split("T")[0]} by {eachComment.username}
                                 </div>
                             </div>
                         </div>
