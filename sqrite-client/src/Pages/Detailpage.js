@@ -37,9 +37,7 @@ class Detailpage extends React.Component {
 
     async getDetailPage(postId) {
         const getCurrentPost = await axios.get(`${process.env.REACT_APP_SERVER}/post/content?post_id=${postId}`);
-        console.log(getCurrentPost.data[0])
         const getCurrentComment = await axios.get(`${process.env.REACT_APP_SERVER}/comment/comment?post_id=${postId}`);
-        console.log(getCurrentComment.data)
         this.setState({ currentPost: getCurrentPost.data[0], currentComment: getCurrentComment.data });
     }
 
@@ -85,11 +83,9 @@ class Detailpage extends React.Component {
 
     handleUpdateTitleInput = (e) => {
         this.setState({ updatePostTitleInput: e.target.value });
-        console.log(this.state.updatePostTitleInput)
     }
 
     postUserVerify(callback) {
-        console.log("post-userId :", this.state.currentPost.user_id, "userinfo-userId :", this.props.userinfo.id)
         if (this.state.currentPost.user_id === this.props.userinfo.id) {
             callback();
         } else {
