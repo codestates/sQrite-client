@@ -34,7 +34,6 @@ class MainPage extends React.Component {
 
     render() {
         const { allPost, searchWord } = this.state;
-        console.log(this.state.allPost)
         if (this.state.allPost.length === 0) {
             return <div></div>
         }
